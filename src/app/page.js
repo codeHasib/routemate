@@ -1,5 +1,6 @@
-import Image from "next/image";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
-export default function Home() {
-  return <h1>Hey</h1>;
+export default async function Home() {
+  return <h1 className="">Hey</h1>;
 }
