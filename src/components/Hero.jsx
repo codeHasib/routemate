@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation"; // 👈 Imported the production App Router
 import { motion, AnimatePresence } from "framer-motion";
 import { FiMapPin, FiCalendar, FiSearch } from "react-icons/fi";
 import { RiNavigationFill } from "react-icons/ri";
@@ -14,6 +15,7 @@ const BACKGROUND_IMAGES = [
 ];
 
 export default function Hero() {
+  const router = useRouter(); // 👈 Initialized the router instance
   const [currentBg, setCurrentBg] = useState(0);
   const [searchQuery, setSearchQuery] = useState({
     from: "",
@@ -31,12 +33,20 @@ export default function Hero() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    console.log("Routing Queries: ", searchQuery);
+
+    // 💡 Build URL search params natively and safely sanitize inputs
+    const params = new URLSearchParams({
+      from: searchQuery.from.trim(),
+      to: searchQuery.to.trim(),
+      date: searchQuery.date,
+    });
+
     // Push routing query parameter arrays to your /tickets discovery page
+    router.push(`/tickets?${params.toString()}`);
   };
 
   return (
-    <div className="relative pt-8 w-full min-h-[85vh] sm:min-h-[90vh] flex items-center justify-center overflow-hidden bg-black font-sans">
+    <div className="relative w-full min-h-[85vh] sm:min-h-[90vh] flex items-center justify-center overflow-hidden bg-black font-sans">
       {/* CINEMATIC BACKDROP SLIDER */}
       <div className="absolute inset-0 z-0">
         <AnimatePresence mode="wait">
