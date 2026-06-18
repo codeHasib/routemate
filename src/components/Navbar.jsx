@@ -257,7 +257,7 @@ export default function Navbar() {
                       ? "/admin/dashboard"
                       : user.role === "vendor"
                         ? "/vendor/dashboard"
-                        : "/dashboard"
+                        : "/user/dashboard"
                   }
                   className="block py-2.5 px-3 text-base font-medium rounded-xl text-gray-700 hover:bg-gray-50 hover:text-black"
                 >
@@ -283,7 +283,7 @@ export default function Navbar() {
                     </div>
                   </div>
                   <Link
-                    href="/profile"
+                    href="/user/dashboard/profile"
                     className="flex items-center space-x-2 py-2.5 px-3 text-base font-medium text-gray-600 rounded-xl hover:bg-gray-50"
                   >
                     <FiUser /> <span>My Profile</span>
