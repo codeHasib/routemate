@@ -156,7 +156,7 @@ export default function Navbar() {
                         </div>
 
                         <Link
-                          href="/profile"
+                          href="/user/dashboard/profile"
                           className="flex items-center space-x-2 px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-black transition-colors"
                         >
                           <FiUser className="text-gray-400" />
@@ -169,12 +169,12 @@ export default function Navbar() {
                               ? "/admin/dashboard"
                               : user.role === "vendor"
                                 ? "/vendor/dashboard"
-                                : "/dashboard"
+                                : "/user/dashboard"
                           }
                           className="flex items-center space-x-2 px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-black transition-colors"
                         >
                           <FiLayout className="text-gray-400" />
-                          <span>Console Workspace</span>
+                          <span>Workspace</span>
                         </Link>
 
                         <hr className="border-gray-50 my-1" />
@@ -261,7 +261,7 @@ export default function Navbar() {
                   }
                   className="block py-2.5 px-3 text-base font-medium rounded-xl text-gray-700 hover:bg-gray-50 hover:text-black"
                 >
-                  Dashboard Console
+                  Dashboard
                 </Link>
               )}
 
