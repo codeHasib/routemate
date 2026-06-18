@@ -8,24 +8,23 @@ export async function proxy(request) {
   // 1. Optimistically extract the Better Auth session token cookie
   const sessionCookie = getSessionCookie(request);
 
-  // 2. Gatekeeper: If they are trying to reach any dashboard but have no cookie, boot them to signin
+  // Define route condition blocks
+  const isDashboard =
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/vendor") ||
+    pathname.startsWith("/user");
+
+  const isTicketDetails =
+    pathname.startsWith("/tickets/") && pathname !== "/tickets/";
+
   if (!sessionCookie) {
-    if (
-      pathname.startsWith("/admin") ||
-      pathname.startsWith("/vendor") ||
-      pathname.startsWith("/user")
-    ) {
+    if (isDashboard || isTicketDetails) {
       return NextResponse.redirect(new URL("/auth/signin", request.url));
     }
   }
 
-  // 3. Strict Role Isolation Layer via API Verification
-  // Since we know a cookie exists, we verify their exact role with the backend
-  if (
-    pathname.startsWith("/admin") ||
-    pathname.startsWith("/vendor") ||
-    pathname.startsWith("/user")
-  ) {
+  // 3. Strict Verification Layer via API
+  if (isDashboard || isTicketDetails) {
     try {
       const res = await fetch(
         `${request.nextUrl.origin}/api/auth/get-session`,
@@ -38,9 +37,12 @@ export async function proxy(request) {
 
       const session = await res.json();
 
-      // If the cookie was invalid/expired on the backend, clear out and redirect
       if (!session || !session.user) {
         return NextResponse.redirect(new URL("/auth/signin", request.url));
+      }
+
+      if (isTicketDetails) {
+        return NextResponse.next();
       }
 
       const userRole = session.user.role; // Expected variations: 'admin', 'vendor', 'user'
@@ -80,6 +82,6 @@ export const config = {
     "/admin/:path*",
     "/vendor/:path*",
     "/user/:path*",
-    "/tickets/:path",
+    "/tickets/:path+",
   ],
 };

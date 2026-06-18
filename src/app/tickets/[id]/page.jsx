@@ -34,7 +34,7 @@ export default function TicketDetailsPage({ params }) {
 
   // 1. Initial Data Fetching Hydration
   useEffect(() => {
-    fetch(`https://routemate-backend-nine.vercel.app/public/tickets/${id}`)
+    fetch(`https://routemate-backend-nine.vercel.app/api/public/tickets/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
