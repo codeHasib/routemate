@@ -7,14 +7,8 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  Cell,
 } from "recharts";
-import {
-  FiTrendingUp,
-  FiPackage,
-  FiDollarSign,
-  FiLoader,
-} from "react-icons/fi";
+import { FiTrendingUp, FiPackage, FiDollarSign } from "react-icons/fi";
 import { authClient } from "@/lib/auth-client";
 
 export default function RevenuePage() {
@@ -23,19 +17,12 @@ export default function RevenuePage() {
 
   useEffect(() => {
     async function loadData() {
-      setLoading(true);
       try {
-        // 1. Await the token first
         const { data } = await authClient.token();
         const token = data?.token;
 
-        if (!token) {
-          console.error("No token available. User might be logged out.");
-          setLoading(false);
-          return;
-        }
+        if (!token) return setLoading(false);
 
-        // 2. Now fetch the revenue using the retrieved token
         const res = await fetch(
           "http://localhost:5000/api/vendor/revenue-stats",
           {
@@ -47,107 +34,102 @@ export default function RevenuePage() {
         );
 
         const result = await res.json();
-        if (result.success) {
-          setStats(result.data);
-        }
+        if (result.success) setStats(result.data);
       } catch (err) {
-        console.error("Fetch error:", err);
+        console.error("Error loading stats:", err);
       } finally {
         setLoading(false);
       }
     }
-
     loadData();
   }, []);
 
-  if (loading) return <SkeletonLoader />;
+  if (loading)
+    return <div className="p-6 text-slate-500">Loading charts...</div>;
+  if (!stats) return <div className="p-6 text-slate-500">No data found.</div>;
 
-  // Empty state handling
-  if (!stats || (stats.totalAdded === 0 && stats.totalSold === 0)) {
-    return (
-      <div className="flex flex-col items-center justify-center h-96 text-center border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50">
-        <div className="bg-white p-4 rounded-full shadow-sm mb-4">
-          <FiPackage className="text-3xl text-slate-300" />
-        </div>
-        <h2 className="text-lg font-bold text-slate-700">No Analytics Yet</h2>
-        <p className="text-slate-500 text-sm max-w-xs mt-2">
-          Start adding tickets to see your revenue and sales performance metrics
-          unfold here.
-        </p>
-      </div>
-    );
-  }
+  // Chart 1: Simple volume tracking data
+  const volumeData = [
+    { name: "Tickets Added", count: stats.totalAdded || 0 },
+    { name: "Tickets Sold", count: stats.totalSold || 0 },
+  ];
 
-  const data = [
-    { name: "Tickets Added", value: stats.totalAdded, color: "#3b82f6" },
-    { name: "Tickets Sold", value: stats.totalSold, color: "#8b5cf6" },
-    { name: "Revenue ($)", value: stats.totalRevenue, color: "#10b981" },
+  // Chart 2: Simple revenue tracking data
+  const revenueData = [
+    { name: "Total Revenue", amount: stats.totalRevenue || 0 },
   ];
 
   return (
-    <div className="space-y-8">
-      {/* KPI CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {[
-          { label: "Total Added", val: stats.totalAdded, icon: FiPackage },
-          { label: "Total Sold", val: stats.totalSold, icon: FiTrendingUp },
-          {
-            label: "Total Revenue",
-            val: `$${stats.totalRevenue.toFixed(2)}`,
-            icon: FiDollarSign,
-          },
-        ].map((item, i) => (
-          <div
-            key={i}
-            className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm"
-          >
-            <div className="flex justify-between items-start">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                {item.label}
-              </span>
-              <item.icon className="text-slate-300" />
-            </div>
-            <p className="text-3xl font-black text-slate-900 mt-2">
-              {item.val}
-            </p>
+    <div className="space-y-6 p-4 bg-slate-50 min-h-screen">
+      {/* 1. SIMPLE COUNTER CARDS */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+          <div className="text-slate-400 text-xs font-bold uppercase">
+            Tickets Added
           </div>
-        ))}
-      </div>
-
-      {/* CHART SECTION */}
-      <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
-        <h3 className="text-sm font-black text-slate-900 mb-6 uppercase tracking-wider">
-          Performance Breakdown
-        </h3>
-        <div className="h-72 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data} barSize={60}>
-              <XAxis dataKey="name" axisLine={false} tickLine={false} />
-              <YAxis axisLine={false} tickLine={false} />
-              <Tooltip cursor={{ fill: "#f8fafc" }} />
-              <Bar dataKey="value" radius={[8, 8, 0, 0]}>
-                {data.map((entry, i) => (
-                  <Cell key={i} fill={entry.color} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          <div className="text-2xl font-black text-slate-800 mt-1">
+            {stats.totalAdded || 0}
+          </div>
+        </div>
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+          <div className="text-slate-400 text-xs font-bold uppercase">
+            Tickets Sold
+          </div>
+          <div className="text-2xl font-black text-slate-800 mt-1">
+            {stats.totalSold || 0}
+          </div>
+        </div>
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+          <div className="text-slate-400 text-xs font-bold uppercase">
+            Total Revenue
+          </div>
+          <div className="text-2xl font-black text-emerald-600 mt-1">
+            ৳{(stats.totalRevenue || 0).toLocaleString()}
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
 
-// Minimalist Skeleton Loader
-function SkeletonLoader() {
-  return (
-    <div className="animate-pulse space-y-8">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {[1, 2, 3].map((i) => (
-          <div key={i} className="h-32 bg-slate-100 rounded-2xl" />
-        ))}
+      {/* 2. SIMPLE CHARTS GRID */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Left Side: Tickets Chart */}
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+          <h3 className="text-sm font-bold text-slate-700 mb-4">
+            Ticket Volume Metrics
+          </h3>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={volumeData}>
+                <XAxis dataKey="name" />
+                <YAxis allowDecimals={false} />
+                <Tooltip />
+                <Bar dataKey="count" fill="#4f46e5" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Right Side: Revenue Chart */}
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+          <h3 className="text-sm font-bold text-slate-700 mb-4">
+            Financial Earnings (৳)
+          </h3>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={revenueData}>
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip
+                  formatter={(value) => [
+                    `৳${value.toLocaleString()}`,
+                    "Amount",
+                  ]}
+                />
+                <Bar dataKey="amount" fill="#10b981" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
       </div>
-      <div className="h-72 bg-slate-100 rounded-2xl" />
     </div>
   );
 }
