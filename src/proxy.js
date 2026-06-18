@@ -76,5 +76,10 @@ export async function proxy(request) {
 
 // Intercept all specialized dashboard routes globally
 export const config = {
-  matcher: ["/admin/:path*", "/vendor/:path*", "/user/:path*"],
+  matcher: [
+    "/admin/:path*",
+    "/vendor/:path*",
+    "/user/:path*",
+    "/tickets/:path",
+  ],
 };
