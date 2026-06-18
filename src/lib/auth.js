@@ -1,5 +1,5 @@
 import { betterAuth } from "better-auth";
-import { jwt } from "better-auth/plugins";
+import { jwt, role } from "better-auth/plugins";
 import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 
@@ -11,12 +11,9 @@ export const auth = betterAuth({
     client,
   }),
   user: {
-    fields: {
+    additionalFields: {
       role: {
-        type: "string",
         defaultValue: "user",
-        // CRITICAL FIX: Explicitly map the MongoDB document attribute name key
-        dbField: "role",
       },
     },
   },

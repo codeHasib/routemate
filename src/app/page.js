@@ -1,6 +1,9 @@
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import Hero from "@/components/Hero";
 
 export default async function Home() {
-  return <h1 className="">Hey</h1>;
+  return (
+    <>
+      <Hero />
+    </>
+  );
 }
