@@ -102,7 +102,7 @@ export default function TicketCard({ ticket, index }) {
               Per Unit Fare
             </span>
             <p className="text-lg font-extrabold text-black tracking-tight">
-              ${ticket.price || "0.00"}
+              ৳{ticket.price || "0.00"}
             </p>
           </div>
 
