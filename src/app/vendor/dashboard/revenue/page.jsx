@@ -24,7 +24,7 @@ export default function RevenuePage() {
         if (!token) return setLoading(false);
 
         const res = await fetch(
-          "http://localhost:5000/api/vendor/revenue-stats",
+          "https://routemate-backend-nine.vercel.app/api/vendor/revenue-stats",
           {
             headers: {
               Authorization: `Bearer ${token}`,

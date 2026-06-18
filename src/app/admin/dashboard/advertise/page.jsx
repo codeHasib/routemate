@@ -39,13 +39,16 @@ export default function AdvertiseTicketsPage() {
     setSuccessMessage("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/admin/tickets", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      const res = await fetch(
+        "https://routemate-backend-nine.vercel.app/api/admin/tickets",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       if (!res.ok)
         throw new Error(
@@ -100,7 +103,7 @@ export default function AdvertiseTicketsPage() {
     try {
       // Connecting directly to your PUT /tickets/:id/review route handler
       const res = await fetch(
-        `http://localhost:5000/api/admin/tickets/${ticketId}/review`,
+        `https://routemate-backend-nine.vercel.app/api/admin/tickets/${ticketId}/review`,
         {
           method: "PUT",
           headers: {

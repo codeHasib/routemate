@@ -40,13 +40,16 @@ export default function ManageUsersPage() {
     setSuccessMessage("");
 
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/users`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${token}`,
+      const res = await fetch(
+        `https://routemate-backend-nine.vercel.app/api/admin/users`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       if (!res.ok)
         throw new Error("Could not fetch the registered users list.");
@@ -74,14 +77,17 @@ export default function ManageUsersPage() {
     setSuccessMessage("");
 
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/manage-role`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      const res = await fetch(
+        `https://routemate-backend-nine.vercel.app/api/admin/manage-role`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ targetUserId, newRole }),
         },
-        body: JSON.stringify({ targetUserId, newRole }),
-      });
+      );
 
       const data = await res.json();
 
@@ -124,7 +130,7 @@ export default function ManageUsersPage() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/api/admin/mistrust-operator`,
+        `https://routemate-backend-nine.vercel.app/api/admin/mistrust-operator`,
         {
           method: "PUT",
           headers: {

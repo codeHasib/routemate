@@ -21,9 +21,12 @@ export default function MyBookingsPage() {
     async function fetchBookings() {
       try {
         const { data } = await authClient.token();
-        const res = await fetch("http://localhost:5000/api/bookings", {
-          headers: { Authorization: `Bearer ${data?.token}` },
-        });
+        const res = await fetch(
+          "https://routemate-backend-nine.vercel.app/api/bookings",
+          {
+            headers: { Authorization: `Bearer ${data?.token}` },
+          },
+        );
         const result = await res.json();
         if (result.success) setBookings(result.data);
       } catch (error) {

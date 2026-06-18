@@ -34,7 +34,7 @@ export default function AllTicketsPage() {
           limit: 9,
         });
         const res = await fetch(
-          `http://localhost:5000/api/public/tickets?${params.toString()}`,
+          `https://routemate-backend-nine.vercel.app/api/public/tickets?${params.toString()}`,
         );
         const json = await res.json();
         if (json.success) {

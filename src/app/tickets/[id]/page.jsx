@@ -34,7 +34,7 @@ export default function TicketDetailsPage({ params }) {
 
   // 1. Initial Data Fetching Hydration
   useEffect(() => {
-    fetch(`http://localhost:5000/api/public/tickets/${id}`)
+    fetch(`https://routemate-backend-nine.vercel.app/public/tickets/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -129,14 +129,17 @@ export default function TicketDetailsPage({ params }) {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/api/bookings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${session?.token}`,
+      const response = await fetch(
+        "https://routemate-backend-nine.vercel.app/api/bookings",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${session?.token}`,
+          },
+          body: JSON.stringify(payload),
         },
-        body: JSON.stringify(payload),
-      });
+      );
 
       const responseData = await response.json();
 

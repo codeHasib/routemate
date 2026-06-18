@@ -48,7 +48,7 @@ export default function MyTicketsPage() {
     if (!token) return;
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/manage/tickets", {
+      const res = await fetch("https://routemate-backend-nine.vercel.app/api/manage/tickets", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -82,7 +82,7 @@ export default function MyTicketsPage() {
       return;
     try {
       const res = await fetch(
-        `http://localhost:5000/api/manage/tickets/${id}`,
+        `https://routemate-backend-nine.vercel.app/api/manage/tickets/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -115,7 +115,7 @@ export default function MyTicketsPage() {
     setUpdateLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:5000/api/manage/tickets/${editingTicket._id}`,
+        `https://routemate-backend-nine.vercel.app/api/manage/tickets/${editingTicket._id}`,
         {
           method: "PUT",
           headers: {

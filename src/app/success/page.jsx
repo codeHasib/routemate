@@ -54,7 +54,7 @@ function SuccessContent() {
         // 2. Transmit the updates directly to our Express Mongo database
         const { data: auth } = await authClient.token();
         const updateRes = await fetch(
-          `http://localhost:5000/api/bookings/${bookingId}/status`,
+          `https://routemate-backend-nine.vercel.app/api/bookings/${bookingId}/status`,
           {
             method: "PUT",
             headers: {
@@ -74,7 +74,7 @@ function SuccessContent() {
 
         // 3. Fetch all booking parameters to paint our receipt ticket interface
         const baseBookingsRes = await fetch(
-          "http://localhost:5000/api/bookings",
+          "https://routemate-backend-nine.vercel.app/api/bookings",
           {
             headers: { Authorization: `Bearer ${auth?.token}` },
           },

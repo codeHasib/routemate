@@ -1,12 +1,17 @@
 // components/GoogleLoginButton.jsx
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { FcGoogle } from "react-icons/fc";
 
 export default function GoogleLoginButton({ isLoading }) {
   const handleGoogleClick = () => {
-    // Placeholder context hook for your upcoming Better Auth social provider integration
-    console.log("Google OAuth handshake requested.");
+    const signIn = async () => {
+      const data = await authClient.signIn.social({
+        provider: "google",
+      });
+    };
+    signIn();
   };
 
   return (

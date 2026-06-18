@@ -96,13 +96,10 @@ export default function AddTicketPage() {
 
     try {
       let uploadedImageUrl = "";
-
-      // 1. ISOLATED CLIENT SIDE IMGBB UPLOAD DISPATCH PIPELINE
       if (imageFile) {
         const formData = new FormData();
         formData.append("image", imageFile);
 
-        // Replace 'YOUR_IMGBB_API_KEY' with your real ImgBB API key string
         const imgbbApiKey = "22ad84dc28286595d9a1f320b7a8b01e";
 
         const imgbbResponse = await fetch(
@@ -144,14 +141,17 @@ export default function AddTicketPage() {
       };
 
       // 3. EXECUTE REQ.BODY TARGET TO EXPRESS ENGINE BACKEND
-      const res = await fetch("http://localhost:5000/api/manage/tickets", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      const res = await fetch(
+        "https://routemate-backend-nine.vercel.app/api/manage/tickets",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(ticketPayload),
         },
-        body: JSON.stringify(ticketPayload),
-      });
+      );
 
       const result = await res.json();
 

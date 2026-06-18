@@ -10,6 +10,7 @@ import { RiRouteLine } from "react-icons/ri";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
 import { FiUser, FiLogOut, FiLayout, FiChevronDown } from "react-icons/fi";
 import Image from "next/image";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -92,6 +93,7 @@ export default function Navbar() {
 
           {/* RIGHT SIDE: Auth Gateway Configuration */}
           <div className="hidden md:flex items-center space-x-4">
+            <ThemeToggle />
             {isPending ? (
               <div className="w-8 h-8 rounded-full bg-gray-100 animate-pulse" />
             ) : user ? (

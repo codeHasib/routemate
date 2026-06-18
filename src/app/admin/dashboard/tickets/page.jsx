@@ -38,13 +38,16 @@ export default function ManageTicketsPage() {
     setError("");
 
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/tickets`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // ✅ Using your exact token state parameter
+      const res = await fetch(
+        `https://routemate-backend-nine.vercel.app/api/admin/tickets`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // ✅ Using your exact token state parameter
+          },
         },
-      });
+      );
 
       if (!res.ok)
         throw new Error("Could not load the tickets from the database system.");
@@ -72,7 +75,7 @@ export default function ManageTicketsPage() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/api/admin/tickets/${ticketId}/review`,
+        `https://routemate-backend-nine.vercel.app/api/admin/tickets/${ticketId}/review`,
         {
           method: "PUT",
           headers: {

@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { ThemeProvider } from "@/Context/ThemeContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,14 +18,16 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="antialiased bg-slate-50 text-slate-900 min-h-screen flex flex-col justify-between">
-        <div>
-          {/* Renders globally on EVERY single page */}
-          <Navbar />
-          <main className="w-full">{children}</main>
-        </div>
-        {/* Renders globally on EVERY single footer margin */}
-        <Footer />
+      <body className="">
+        <ThemeProvider>
+          <div>
+            {/* Renders globally on EVERY single page */}
+            <Navbar />
+            <main className="w-full">{children}</main>
+          </div>
+          {/* Renders globally on EVERY single footer margin */}
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

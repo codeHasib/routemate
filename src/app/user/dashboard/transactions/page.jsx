@@ -23,7 +23,7 @@ export default function TransactionsPage() {
 
         // 2. Fetch from your Express backend route
         const res = await fetch(
-          "http://localhost:5000/api/transactions/history",
+          "https://routemate-backend-nine.vercel.app/api/transactions/history",
           {
             cache: "no-store",
             headers: {

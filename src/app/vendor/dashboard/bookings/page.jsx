@@ -41,7 +41,7 @@ export default function RequestedBookingsPage() {
     if (!token) return;
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/bookings", {
+      const res = await fetch("https://routemate-backend-nine.vercel.app/api/bookings", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -70,7 +70,7 @@ export default function RequestedBookingsPage() {
     setActionLoadingId(bookingId);
     try {
       const res = await fetch(
-        `http://localhost:5000/api/bookings/${bookingId}/status`,
+        `https://routemate-backend-nine.vercel.app/api/bookings/${bookingId}/status`,
         {
           method: "PUT",
           headers: {
