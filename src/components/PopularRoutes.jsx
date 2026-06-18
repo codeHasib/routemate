@@ -76,7 +76,7 @@ export default function PopularRoutes() {
                   <p className="text-sm font-medium text-gray-400">
                     From{" "}
                     <span className="text-base font-extrabold text-black tracking-tight">
-                      ${route.basePrice}
+                      ৳{route.basePrice}
                     </span>
                   </p>
                 </div>
