@@ -66,7 +66,7 @@ export default function TicketCard({ ticket, index }) {
               <span>
                 Available Qty:{" "}
                 <strong className="text-gray-900 font-semibold">
-                  {ticket.quantity || 0}
+                  {ticket.ticketQuantity || 0}
                 </strong>
               </span>
             </div>
