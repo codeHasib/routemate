@@ -6,7 +6,11 @@ export async function POST(req) {
     const body = await req.json();
     const { ticketTitle, amount, quantity, bookingId } = body;
 
-    // Convert amount to cents (Stripe requirement)
+    // Fallback: Extract the origin dynamically if env is missing
+    const fallbackOrigin = new URL(req.url).origin;
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || fallbackOrigin;
+
+    // Convert amount to the smallest currency unit (Stripe expects Poisha for BDT, so amount * 100)
     const unitAmount = Math.round(amount * 100);
 
     const session = await stripe.checkout.sessions.create({
@@ -14,7 +18,7 @@ export async function POST(req) {
       line_items: [
         {
           price_data: {
-            currency: "usd", // Change to your currency (e.g., 'bdt')
+            currency: "bdt", // ✨ FIXED: Changed from 'usd' to 'bdt'
             product_data: {
               name: ticketTitle,
             },
@@ -24,9 +28,8 @@ export async function POST(req) {
         },
       ],
       mode: "payment",
-      // Pass the bookingId so you can update your database in the webhook
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/user/dashboard/my-bookings`,
+      success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${baseUrl}/user/dashboard/my-bookings`,
       metadata: {
         bookingId: bookingId,
       },
@@ -34,6 +37,7 @@ export async function POST(req) {
 
     return NextResponse.json({ url: session.url });
   } catch (err) {
+    console.error("Stripe Session Creation Failure:", err.message);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
