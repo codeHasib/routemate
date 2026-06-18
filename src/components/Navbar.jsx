@@ -106,7 +106,9 @@ export default function Navbar() {
                       <Image
                         src={user.image}
                         alt={user.name}
-                        className="w-full h-full object-cover"
+                        height={22}
+                        width={22}
+                        className="object-cover rounded-full"
                       />
                     ) : (
                       user.name?.charAt(0)
