@@ -37,7 +37,7 @@ export default function TicketCard({ ticket, index }) {
         <div className="relative w-full h-48 bg-gray-100 overflow-hidden">
           <img
             src={
-              ticket.image ||
+              ticket.imageUrl ||
               "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=600"
             }
             alt={ticket.title}
