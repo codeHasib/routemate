@@ -33,13 +33,6 @@ export default function Loading() {
       </div>
 
       {/* Embedded keyframe configuration injector override */}
-      <style jsx global>{`
-        @keyframes shimmer {
-          100% {
-            transform: translateX(200%);
-          }
-        }
-      `}</style>
     </div>
   );
 }

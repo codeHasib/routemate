@@ -4,3 +4,8 @@
   font-family: "Inter", sans-serif;
 }
 
+@keyframes shimmer {
+  100% {
+    transform: translateX(200%);
+  }
+}
