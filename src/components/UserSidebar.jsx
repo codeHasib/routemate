@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   FiUser,
   FiCalendar,
@@ -11,8 +11,15 @@ import {
 } from "react-icons/fi";
 import { RiRouteLine } from "react-icons/ri";
 import { motion, AnimatePresence } from "framer-motion";
+import { authClient } from "@/lib/auth-client";
 
 function SidebarContent({ setIsOpen, onLogout }) {
+  const router = useRouter();
+  async function handleSignOut() {
+    await authClient.signOut();
+    router.push("/");
+  }
+
   const pathname = usePathname();
   const routes = [
     { name: "Profile", path: "/user/dashboard/profile", icon: FiUser },
@@ -70,10 +77,10 @@ function SidebarContent({ setIsOpen, onLogout }) {
 
       <div className="p-4 border-t border-slate-900">
         <button
-          onClick={onLogout}
+          onClick={handleSignOut}
           className="w-full flex items-center space-x-3 px-4 py-3 text-red-400 hover:text-red-300 transition-colors"
         >
-          <FiLogOut /> <span>Back to homepage</span>
+          <FiLogOut /> <span>Sign Out</span>
         </button>
       </div>
     </div>

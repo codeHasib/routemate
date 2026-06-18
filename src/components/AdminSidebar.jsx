@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FiUser, FiUsers, FiAward, FiLogOut, FiX } from "react-icons/fi";
 import { RiRouteLine } from "react-icons/ri";
 import { IoTicketSharp } from "react-icons/io5";
@@ -10,6 +10,11 @@ import { IoTicketSharp } from "react-icons/io5";
 // 1. ISOLATED SIDEBAR CONTENT ARCHITECTURE
 function SidebarContent({ setIsOpen, onLogout }) {
   const pathname = usePathname();
+  const router = useRouter();
+  async function handleSignOut() {
+    await authClient.signOut();
+    router.push("/");
+  }
 
   const routes = [
     { name: "Admin Profile", path: "/admin/dashboard/profile", icon: FiUser },
@@ -85,7 +90,7 @@ function SidebarContent({ setIsOpen, onLogout }) {
       {/* WORK SESSION TERMINATION HOUSING */}
       <div className="p-4 border-t border-slate-900">
         <button
-          onClick={onLogout}
+          onClick={handleSignOut}
           className="w-full flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-xl text-red-400 hover:bg-red-950/30 hover:text-red-300 transition-colors duration-200"
         >
           <FiLogOut className="text-base shrink-0" />

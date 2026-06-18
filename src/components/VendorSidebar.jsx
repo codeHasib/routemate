@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   FiUser,
   FiPlusCircle,
@@ -17,6 +17,11 @@ import { RiRouteLine } from "react-icons/ri";
 // 1. ISOLATED SIDEBAR CONTENT ARCHITECTURE
 function SidebarContent({ setIsOpen, onLogout }) {
   const pathname = usePathname();
+  const router = useRouter();
+  async function handleSignOut() {
+    await authClient.signOut();
+    router.push("/");
+  }
 
   // Exact vendor-specific routes mapped with crisp utility icons
   const routes = [
@@ -102,11 +107,11 @@ function SidebarContent({ setIsOpen, onLogout }) {
       {/* WORK SESSION TERMINATION HOUSING */}
       <div className="p-4 border-t border-slate-900">
         <button
-          onClick={onLogout}
+          onClick={handleSignOut}
           className="w-full flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-xl text-red-400 hover:bg-red-950/30 hover:text-red-300 transition-colors duration-200"
         >
           <FiLogOut className="text-base shrink-0" />
-          <span>Exit Work Session</span>
+          <span>Sign Out</span>
         </button>
       </div>
     </div>
