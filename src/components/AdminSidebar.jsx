@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { FiUser, FiUsers, FiAward, FiLogOut, FiX } from "react-icons/fi";
 import { RiRouteLine } from "react-icons/ri";
 import { IoTicketSharp } from "react-icons/io5";
+import { authClient } from "@/lib/auth-client";
 
 // 1. ISOLATED SIDEBAR CONTENT ARCHITECTURE
 function SidebarContent({ setIsOpen, onLogout }) {
