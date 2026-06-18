@@ -30,7 +30,7 @@ export default function AdminLayout({ children }) {
 
   // Fallback protection check
   if (!session || session.user?.role !== "admin") {
-    return null; 
+    return null;
   }
 
   return (
@@ -46,23 +46,30 @@ export default function AdminLayout({ children }) {
           </button>
           <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-slate-400">
             <FiShield className="text-emerald-500 animate-pulse" />
-            <span>Secure Console Connection Active</span>
+            <span>Admin is Active</span>
           </div>
         </div>
-        
+
         <div className="text-right leading-none hidden sm:block">
-          <p className="text-xs font-bold text-slate-900">{session.user.name}</p>
-          <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-0.5 block">Root Operator</span>
+          <p className="text-xs font-bold text-slate-900">
+            {session.user.name}
+          </p>
+          <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-0.5 block">
+            Root Operator
+          </span>
         </div>
       </div>
 
       {/* CORE WORKSPACE LAYER */}
       <div className="flex flex-col md:flex-row gap-6 items-start relative">
-        
         {/* INLINE ADMIN SIDEBAR ENGINE */}
         {/* We use structural classes so it sits as a layout block column next to content instead of taking over the screen */}
         <div className="w-full md:w-64 shrink-0">
-          <AdminSidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} onLogout={handleLogout} />
+          <AdminSidebar
+            isOpen={sidebarOpen}
+            setIsOpen={setSidebarOpen}
+            onLogout={handleLogout}
+          />
         </div>
 
         {/* WORKSPACE ELEMENT SLOT CONTENT */}

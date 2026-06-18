@@ -77,7 +77,7 @@ export default function Navbar() {
                     ? "/admin/dashboard"
                     : user.role === "vendor"
                       ? "/vendor/dashboard"
-                      : "/dashboard"
+                      : "/user/dashboard"
                 }
                 className={`text-sm font-medium tracking-wide transition-colors duration-200 ${
                   pathname.includes("dashboard")

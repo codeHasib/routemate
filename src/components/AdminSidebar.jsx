@@ -12,10 +12,18 @@ function SidebarContent({ setIsOpen, onLogout }) {
   const pathname = usePathname();
 
   const routes = [
-    { name: "Admin Profile", path: "/admin/profile", icon: FiUser },
-    { name: "Manage Tickets", path: "/admin/tickets", icon: IoTicketSharp },
-    { name: "Manage Users", path: "/admin/users", icon: FiUsers },
-    { name: "Advertise Tickets", path: "/admin/advertise", icon: FiAward },
+    { name: "Admin Profile", path: "/admin/dashboard/profile", icon: FiUser },
+    {
+      name: "Manage Tickets",
+      path: "/admin/dashboard/tickets",
+      icon: IoTicketSharp,
+    },
+    { name: "Manage Users", path: "/admin/dashboard/users", icon: FiUsers },
+    {
+      name: "Advertise Tickets",
+      path: "/admin/dashboard/advertise",
+      icon: FiAward,
+    },
   ];
 
   return (
@@ -27,7 +35,7 @@ function SidebarContent({ setIsOpen, onLogout }) {
             <RiRouteLine className="text-lg" />
           </div>
           <span className="text-md font-bold tracking-tight text-white">
-            TicketBari
+            Routemate
             <span className="text-emerald-500 font-medium text-xs ml-1.5 px-1.5 py-0.5 bg-emerald-950 rounded-md border border-emerald-900">
               Admin
             </span>
