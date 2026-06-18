@@ -298,13 +298,13 @@ export default function Navbar() {
               ) : (
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   <Link
-                    href="/signin"
+                    href="/auth/signin"
                     className="w-full text-center py-2.5 border border-gray-200 text-sm font-semibold rounded-xl text-gray-700 hover:bg-gray-50"
                   >
                     Sign In
                   </Link>
                   <Link
-                    href="/signup"
+                    href="/auth/signup"
                     className="w-full text-center py-2.5 bg-black text-white text-sm font-semibold rounded-xl hover:bg-gray-900"
                   >
                     Register
