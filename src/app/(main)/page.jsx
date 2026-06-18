@@ -14,7 +14,7 @@ async function getFeaturedTickets() {
     );
 
     if (!res.ok) return [];
-    const json = (await res.ok) ? await res.json() : null;
+    const json = await res.ok ? await res.json() : null;
     return json?.success ? json.data : [];
   } catch (error) {
     console.error("Express API connection refused:", error.message);
@@ -56,7 +56,6 @@ export default async function Home() {
       <PopularRoutes />
       <LatestTickets tickets={latestTickets} />
       <WhyChooseUs />
-      
     </>
   );
 }
