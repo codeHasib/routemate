@@ -25,6 +25,7 @@ export default function TransactionsPage() {
         const res = await fetch(
           "http://localhost:5000/api/transactions/history",
           {
+            cache: "no-store",
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
