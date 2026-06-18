@@ -38,7 +38,7 @@ export default function ManageTicketsPage() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/admin/tickets", {
+      const res = await fetch(`http://localhost:5000/api/admin/tickets`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
