@@ -64,19 +64,19 @@ export default function AdminDashboardIndex() {
     },
     {
       key: "activeLeases",
-      label: "Active Leases",
+      label: "Active Tickets",
       icon: <FiLayers className="text-base text-amber-500" />,
       fallback: "0",
     },
     {
       key: "userIngress",
-      label: "User Ingress",
+      label: "Total Users",
       icon: <FiUsers className="text-base text-emerald-500" />,
       fallback: "0",
     },
     {
       key: "grossYield",
-      label: "Gross Yield",
+      label: "Gross Income",
       icon: <FiDollarSign className="text-base text-indigo-500" />,
       fallback: "$0",
     },
@@ -87,10 +87,10 @@ export default function AdminDashboardIndex() {
       <div>
         <h2
           className={`text-xl font-extrabold tracking-tight sm:text-2xl transition-colors ${
-            isDark ? "text-zinc-100" : "text-slate-900"
+            isDark ? "text-black" : "text-slate-900"
           }`}
         >
-          Core Operations Console
+          Admin Operation Center
         </h2>
         <p
           className={`text-xs font-light mt-0.5 transition-colors ${
