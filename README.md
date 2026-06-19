@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p align="center">
+  <img src="readme.png" alt="Routemate" width="100%">
+</p>
 
-## Getting Started
+# 🚀 RouteMate
 
-First, run the development server:
+### **Modern Utility Travel Ticketing & Vendor Management Matrix**
+
+RouteMate is a high-fidelity, utility-first travel ticket procurement and vendor logistics management platform. Engineered for seamless deployment on the Next.js App Router and optimized with a robust Node.js/Mongoose ecosystem, it enables transit operators to orchestrate route listings, audit ticket allocations, and review transaction ledgers with extreme precision.
+
+---
+
+## 🎯 Purpose & Scope
+
+In modern transit ecosystems, legacy ticketing software suffers from high latency and rigid interfaces. **RouteMate** reclaims efficiency by providing vendors with an agile, high-performance portal to manage target route pathing, inventory availability, and localized structural data. It serves as an end-to-end framework bridges secure administrative auditing with dynamic consumer-facing route options.
+
+- **Live Application URL:** [https://routemate-backend-nine.vercel.app](https://routemate-backend-nine.vercel.app) _(Target Backend Service Matrix)_
+
+---
+
+## ✨ Key Capabilities & User Features
+
+### 🏢 Vendor Operations Control Panel
+
+- **Asset Management Pipeline (CRUD):** Complete control mechanics to instantiate, track, and update ticket route entries. Customize unit costs, structural route tags, and real-time seat volume pools safely.
+- **Localized Route Mappings:** Explicit mapping definitions containing origin nodes (`fromLocation`), target vectors (`toLocation`), transit mode markers (`transportType`), and chronological dispatch stamps (`departureTime`).
+- **Administrative Quarantine Workflows:** Automated visual indicators tracking ticket status matrices (`pending`, `approved`, or `rejected`). Interactive state blocks safely restrict modifying assets flagged by terminal managers.
+
+### 🔐 Security & Structural Engine
+
+- **Identity Alignment Infrastructure:** Streamlined session allocation via synchronized security client tokens, establishing state-locked authorization headers for all state mutations.
+- **Fluid User Experience Layers:** Intercepts critical execution signals (such as resource purges) via custom-animated Framer Motion confirm sheets, discarding jarring native browser alerts for enhanced interface continuousness.
+- **Modern Utility UI Layouts:** Adaptive 3-column micro-grid structure offering responsive, edge-to-edge content presentation optimized perfectly across small mobile viewports and large multi-task arrays.
+
+---
+
+## 📦 Core Technical Stack & Package Registry
+
+### Frontend Core Architecture
+
+| Package Module          | Classification | Functional Role in Matrix                                                                             |
+| :---------------------- | :------------- | :---------------------------------------------------------------------------------------------------- |
+| `next` (v16)            | Framework      | Structural React Core, Dynamic Routing, & Server Actions                                              |
+| `framer-motion`         | Engineering UI | Orchestrates smooth, hardware-accelerated viewport transitions & custom modal layouts                 |
+| `react-icons` (Fi Pack) | UI Polish      | Provides scalable, lightweight vector iconography for cross-platform interface scannability           |
+| `react-toastify`        | UX Diagnostics | Handles instant asynchronous notification status feedback loops for inline backend logic              |
+| `@better-auth/react`    | Security       | Manages customer-to-vendor identity mapping and unified state authorization tokens                    |
+| `tailwindcss`           | Design Engine  | Delivers the "Modern Utility" visual foundations, high-fidelity spacing tokens, and clean grid layers |
+
+### Backend Framework Matrix
+
+| Package Module    | Classification | Functional Role in Matrix                                                                      |
+| :---------------- | :------------- | :--------------------------------------------------------------------------------------------- |
+| `express`         | Core Routing   | Handles transactional routing pipelines and incoming controller signals                        |
+| `mongodb adapter` | Data Modeling  | Shapes the ticket configuration schematics, schema validations, and MongoDB aggregation layers |
+| `jwt & jwks`      | Protection     | Shapes the backend api routes with authentication and authorization                            |
+
+---
+
+## 🚀 Local Initialization Protocols
+
+### 1. Replicate Project Repositories
+
+```bash
+git clone https://github.com/codeHasib/routemate.git
+cd routemate
+```
+
+### 2. Dependencies Sync Execution
+
+```bash
+npm install
+```
+
+### 3. Environment Variable Calibration
+
+Create a `.env.local` manifest file within the client directory root structure:
+
+```env
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_BACKEND_API_MATRIX=https://routemate-backend-nine.vercel.app
+```
+
+### 4. Initiate Development Environment
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your local browser layout to test the system matrix.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛡️ Administrative Maintenance Rules
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> **Operational Note:** Always make sure route mutation strategies utilize target parameter verification. Any endpoint validation mismatch will cause immediate rejection in the modification pipeline to preserve database configuration health.
