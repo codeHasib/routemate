@@ -150,7 +150,7 @@ export default function Footer() {
 
         {/* BOTTOM METADATA BAR BLOCK */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 font-light gap-4">
-          <p>© 2025 TicketBari. All rights reserved.</p>
+          <p>© 2026 Routemate. All rights reserved.</p>
           <div className="flex space-x-6">
             <Link
               href="/privacy"
