@@ -43,9 +43,7 @@ export default function Navbar() {
   return (
     <nav
       className={`font-sans sticky top-0 z-50 backdrop-blur-md border-b transition-all duration-300 ${
-        isDark
-          ? "bg-black border-zinc-900"
-          : "bg-white/80 border-gray-100"
+        isDark ? "bg-black border-zinc-900" : "bg-white/80 border-gray-100"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -306,6 +304,7 @@ export default function Navbar() {
 
           {/* RESPONSIVE MOBILE TRIGGER CONTROLLER */}
           <div className="flex md:hidden items-center">
+            <ThemeToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}
               className={`p-2 rounded-xl transition-colors focus:outline-none ${

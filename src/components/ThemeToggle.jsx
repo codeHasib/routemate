@@ -1,26 +1,32 @@
 "use client";
+
 import { useTheme } from "../context/ThemeContext";
 import { FiSun, FiMoon } from "react-icons/fi";
 
 export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
 
   return (
     <button
       onClick={toggleTheme}
-      className="p-2.5 rounded-xl border border-slate-200 bg-white text-slate-800 shadow-sm hover:bg-slate-50 transition-all duration-200 active:scale-95 flex items-center justify-center cursor-pointer"
-      title={theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode"}
+      className={`w-10 h-10 rounded-xl border flex items-center justify-center cursor-pointer transition-all duration-300 active:scale-95 shadow-sm group ${
+        isDark
+          ? "bg-zinc-900 border-zinc-800 text-zinc-100 hover:bg-zinc-800/80 hover:border-zinc-700 shadow-black/40"
+          : "bg-white border-slate-200 text-slate-800 hover:bg-slate-50 hover:border-slate-300"
+      }`}
+      title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
     >
-      {theme === "light" ? (
-        <div className="flex items-center gap-2 text-xs font-semibold">
-          <FiMoon size={16} className="text-slate-700" />
-          <span>Dark Mode</span>
-        </div>
+      {isDark ? (
+        <FiSun
+          size={18}
+          className="text-amber-400 transition-transform duration-500 group-hover:rotate-45"
+        />
       ) : (
-        <div className="flex items-center gap-2 text-xs font-semibold">
-          <FiSun size={16} className="text-amber-500 animate-pulse" />
-          <span>Light Mode</span>
-        </div>
+        <FiMoon
+          size={18}
+          className="text-slate-700 transition-transform duration-500 group-hover:-rotate-12"
+        />
       )}
     </button>
   );
