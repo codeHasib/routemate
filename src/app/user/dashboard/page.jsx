@@ -17,7 +17,7 @@ export default function UserDashboardIndex() {
       className="space-y-8"
     >
       {/* Welcome Hero */}
-      <div className="bg-black rounded-3xl p-8 text-white shadow-xl shadow-indigo-200">
+      <div className="bg-black rounded-3xl p-8 text-white shadow-sm shadow-white">
         <h2 className="text-3xl font-black">Welcome back, Traveler!</h2>
         <p className="opacity-80 mt-2 max-w-md">
           Your next adventure awaits. Check your current bookings or browse new

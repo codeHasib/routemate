@@ -2,7 +2,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FiChevronRight, FiLayers, FiTag } from "react-icons/fi";
+import { FiChevronRight, FiLayers } from "react-icons/fi";
+import { useTheme } from "@/context/ThemeContext"; // Adjust this path to your custom theme context
 import {
   RiBus2Line,
   RiTrainLine,
@@ -12,6 +13,10 @@ import {
 import Link from "next/link";
 
 export default function TicketCard({ ticket, index }) {
+  // Pull theme state from your custom context hook
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
   // Dynamic Icon selector matching transport type variants
   const getTransportIcon = (type) => {
     switch (type?.toLowerCase()) {
@@ -30,11 +35,19 @@ export default function TicketCard({ ticket, index }) {
       initial={{ opacity: 0, y: 25 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.06, ease: "easeOut" }}
-      className="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-black/15 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+      className={`rounded-2xl overflow-hidden transition-all duration-300 flex flex-col justify-between group border ${
+        isDark
+          ? "bg-zinc-900 border-zinc-800 hover:border-white/15 hover:shadow-2xl hover:shadow-black/40"
+          : "bg-white border-gray-100 hover:border-black/15 hover:shadow-xl"
+      }`}
     >
       <div>
         {/* PREMIUM IMAGE DISPLAY LAYER */}
-        <div className="relative w-full h-48 bg-gray-100 overflow-hidden">
+        <div
+          className={`relative w-full h-48 overflow-hidden transition-colors duration-300 ${
+            isDark ? "bg-zinc-800" : "bg-gray-100"
+          }`}
+        >
           <img
             src={
               ticket.imageUrl ||
@@ -54,18 +67,34 @@ export default function TicketCard({ ticket, index }) {
         {/* DETAILS ARCHITECTURE */}
         <div className="p-5">
           <div className="flex justify-between items-start gap-2 mb-2">
-            <h3 className="text-base font-bold text-gray-900 group-hover:text-black tracking-tight transition-colors line-clamp-1">
+            <h3
+              className={`text-base font-bold tracking-tight transition-colors line-clamp-1 ${
+                isDark
+                  ? "text-zinc-100 group-hover:text-white"
+                  : "text-gray-900 group-hover:text-black"
+              }`}
+            >
               {ticket.title || "Premium Intercity Route"}
             </h3>
           </div>
 
           {/* STOCK INVENTORY & METRICS ACCENT */}
-          <div className="flex items-center space-x-4 my-3 text-xs font-medium text-gray-500">
+          <div
+            className={`flex items-center space-x-4 my-3 text-xs font-medium transition-colors duration-300 ${
+              isDark ? "text-zinc-400" : "text-gray-500"
+            }`}
+          >
             <div className="flex items-center space-x-1">
-              <FiLayers className="text-gray-400 text-sm" />
+              <FiLayers
+                className={isDark ? "text-zinc-500" : "text-gray-400"}
+              />
               <span>
                 Available Qty:{" "}
-                <strong className="text-gray-900 font-semibold">
+                <strong
+                  className={`font-semibold transition-colors duration-300 ${
+                    isDark ? "text-zinc-100" : "text-gray-900"
+                  }`}
+                >
                   {ticket.ticketQuantity || 0}
                 </strong>
               </span>
@@ -74,18 +103,34 @@ export default function TicketCard({ ticket, index }) {
 
           {/* PREMIUM PERKS LIST MATRIX */}
           {ticket.perks && ticket.perks.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 mt-4 pt-3 border-t border-gray-50">
+            <div
+              className={`flex flex-wrap gap-1.5 mt-4 pt-3 border-t transition-colors duration-300 ${
+                isDark ? "border-zinc-800" : "border-gray-50"
+              }`}
+            >
               {ticket.perks.slice(0, 3).map((perk, idx) => (
                 <div
                   key={idx}
-                  className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-md bg-slate-50 text-[10px] font-medium text-gray-600 border border-gray-100"
+                  className={`inline-flex items-center space-x-1 px-2 py-0.5 rounded-md text-[10px] font-medium border transition-all duration-300 ${
+                    isDark
+                      ? "bg-zinc-800/50 text-zinc-300 border-zinc-700/60"
+                      : "bg-slate-50 text-gray-600 border border-gray-100"
+                  }`}
                 >
-                  <RiCheckLine className="text-black text-xs" />
+                  <RiCheckLine
+                    className={`text-xs ${isDark ? "text-white" : "text-black"}`}
+                  />
                   <span className="capitalize">{perk}</span>
                 </div>
               ))}
               {ticket.perks.length > 3 && (
-                <div className="inline-flex items-center px-1.5 py-0.5 rounded-md bg-gray-50 text-[9px] font-bold text-gray-400 border border-dashed border-gray-200">
+                <div
+                  className={`inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-bold border border-dashed transition-all duration-300 ${
+                    isDark
+                      ? "bg-zinc-800 text-zinc-500 border-zinc-700"
+                      : "bg-gray-50 text-gray-400 border-gray-200"
+                  }`}
+                >
                   +{ticket.perks.length - 3} more
                 </div>
               )}
@@ -96,19 +141,35 @@ export default function TicketCard({ ticket, index }) {
 
       {/* FOOTER ACTION SUMMARY CARD LAYER */}
       <div className="p-5 pt-0 mt-auto">
-        <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
+        <div
+          className={`pt-4 border-t flex items-center justify-between transition-colors duration-300 ${
+            isDark ? "border-zinc-800" : "border-gray-100"
+          }`}
+        >
           <div>
-            <span className="text-[10px] text-gray-400 font-medium block uppercase tracking-wider">
+            <span
+              className={`text-[10px] font-medium block uppercase tracking-wider ${
+                isDark ? "text-zinc-500" : "text-gray-400"
+              }`}
+            >
               Per Unit Fare
             </span>
-            <p className="text-lg font-extrabold text-black tracking-tight">
+            <p
+              className={`text-lg font-extrabold tracking-tight transition-colors duration-300 ${
+                isDark ? "text-white" : "text-black"
+              }`}
+            >
               ৳{ticket.price || "0.00"}
             </p>
           </div>
 
           <Link
             href={`/tickets/${ticket._id}`}
-            className="inline-flex items-center justify-center space-x-1.5 px-4 py-2.5 bg-black text-white rounded-xl text-xs font-semibold hover:bg-gray-900 transition-all active:scale-[0.97] shadow-sm group/btn"
+            className={`inline-flex items-center justify-center space-x-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all active:scale-[0.97] shadow-sm group/btn ${
+              isDark
+                ? "bg-white text-black hover:bg-zinc-100 shadow-white/5"
+                : "bg-black text-white hover:bg-gray-900"
+            }`}
           >
             <span>See Details</span>
             <FiChevronRight className="text-sm transition-transform group-hover/btn:translate-x-0.5" />

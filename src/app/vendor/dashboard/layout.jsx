@@ -16,7 +16,7 @@ export default function VendorDashboardLayout({ children }) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans antialiased text-slate-900">
+    <div className="min-h-screen font-sans antialiased text-slate-900">
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8">
         {/* MOBILE NAVIGATION BAR HEADER */}
         <header className="flex md:hidden items-center justify-between bg-white border border-slate-200/60 p-4 rounded-2xl mb-5 shadow-xs">

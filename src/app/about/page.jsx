@@ -1,7 +1,7 @@
 // app/about/page.jsx
 "use client";
 
-import { useTheme } from "@/Context/ThemeContext";
+import { useTheme } from "@/context/ThemeContext";
 import { FiUsers, FiShield, FiCpu, FiTrendingUp } from "react-icons/fi";
 
 export default function AboutPage() {

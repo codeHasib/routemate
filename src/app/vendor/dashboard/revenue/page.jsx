@@ -60,7 +60,7 @@ export default function RevenuePage() {
   ];
 
   return (
-    <div className="space-y-6 p-4 bg-slate-50 min-h-screen">
+    <div className="space-y-6 p-4 min-h-screen">
       {/* 1. SIMPLE COUNTER CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">

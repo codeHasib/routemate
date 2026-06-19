@@ -36,7 +36,7 @@ export default function AdminLayout({ children }) {
   return (
     <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* HEADER SECTION FOR ADMIN CONTROLS */}
-      <div className="bg-white border border-slate-100 rounded-2xl p-4 mb-6 flex items-center justify-between shadow-xs">
+      <div className="border border-slate-100 rounded-2xl p-4 mb-6 flex items-center justify-between shadow-xs">
         <div className="flex items-center space-x-3">
           <button
             onClick={() => setSidebarOpen(true)}

@@ -12,7 +12,7 @@ export default function UserDashboardLayout({ children }) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 p-4 md:p-8">
+    <div className="min-h-screen p-4 md:p-8">
       <header className="md:hidden flex items-center justify-between bg-white p-4 rounded-2xl mb-5 border shadow-xs">
         <span className="font-bold">Routemate User</span>
         <button

@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ThemeProvider } from "@/Context/ThemeContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,11 +21,9 @@ export default function RootLayout({ children }) {
       <body className="">
         <ThemeProvider>
           <div>
-            {/* Renders globally on EVERY single page */}
             <Navbar />
             <main className="w-full">{children}</main>
           </div>
-          {/* Renders globally on EVERY single footer margin */}
           <Footer />
         </ThemeProvider>
       </body>

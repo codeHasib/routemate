@@ -1,7 +1,7 @@
 // app/contact/page.jsx
 "use client";
 
-import { useTheme } from "@/Context/ThemeContext";
+import { useTheme } from "@/context/ThemeContext";
 import { useState } from "react";
 import { FiMail, FiPhone, FiMapPin, FiSend, FiClock } from "react-icons/fi";
 

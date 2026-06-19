@@ -9,3 +9,7 @@
     transform: translateX(200%);
   }
 }
+
+html.dark {
+  background-color: rgba(0, 0, 0, 0.925);
+}

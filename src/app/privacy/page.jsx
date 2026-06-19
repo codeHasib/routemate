@@ -1,7 +1,7 @@
 // app/legal/page.jsx
 "use client";
 
-import { useTheme } from "@/Context/ThemeContext";
+import { useTheme } from "@/context/ThemeContext";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
