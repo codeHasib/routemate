@@ -1,8 +1,13 @@
 // components/FeaturedTickets.jsx
+"use client";
+
+import { useTheme } from "@/context/ThemeContext";
 import TicketCard from "./TicketCard";
 import { RiSparkling2Fill } from "react-icons/ri";
 
 export default function FeaturedTickets({ tickets }) {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   if (!tickets || tickets.length === 0) return null;
 
   return (
@@ -16,10 +21,18 @@ export default function FeaturedTickets({ tickets }) {
               Premium Choices
             </span>
           </div>
-          <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl mb-4">
+          <h2
+            className={`text-3xl font-extrabold tracking-tight sm:text-4xl mb-4 ${
+              isDark ? "text-white" : "text-black"
+            }`}
+          >
             Featured Premium Routes
           </h2>
-          <p className="text-sm sm:text-base font-light tracking-wide leading-relaxed">
+          <p
+            className={`text-sm sm:text-base font-light tracking-wide leading-relaxed ${
+              isDark ? "text-white" : "text-black"
+            }`}
+          >
             Handpicked premium departures matching maximum reliability metrics.
             Approved directly by RouteMate Admins.
           </p>

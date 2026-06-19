@@ -1,8 +1,12 @@
-// components/LatestTickets.jsx
+"use client";
+
+import { useTheme } from "@/context/ThemeContext";
 import TicketCard from "./TicketCard";
 import { RiTimeLine } from "react-icons/ri";
 
 export default function LatestTickets({ tickets }) {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   if (!tickets || tickets.length === 0) return null;
 
   return (
@@ -17,10 +21,18 @@ export default function LatestTickets({ tickets }) {
                 Just Added
               </span>
             </div>
-            <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+            <h2
+              className={`text-3xl font-extrabold tracking-tight sm:text-4xl ${
+                isDark ? "text-white" : "text-black"
+              }`}
+            >
               Latest Live Deliveries
             </h2>
-            <p className="text-sm font-light tracking-wide mt-2 leading-relaxed">
+            <p
+              className={`text-sm font-light tracking-wide mt-2 leading-relaxed ${
+                isDark ? "text-white" : "text-black"
+              }`}
+            >
               Freshly scheduled transit operations posted by verified vendors.
               Book early to secure premium seating arrangements.
             </p>
