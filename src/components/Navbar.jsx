@@ -340,7 +340,7 @@ export default function Navbar() {
             <div className="px-4 pt-2 pb-6 space-y-3 shadow-inner">
               <Link
                 href="/"
-                className={`block py-2.5 px-3 text-base font-medium rounded-xl ${
+                className={`block py-3 px-3 text-base font-medium rounded-xl ${
                   isDark
                     ? "text-zinc-300 hover:bg-zinc-900 hover:text-white"
                     : "text-gray-700 hover:bg-gray-50 hover:text-black"
