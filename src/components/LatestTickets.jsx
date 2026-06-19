@@ -17,10 +17,10 @@ export default function LatestTickets({ tickets }) {
                 Just Added
               </span>
             </div>
-            <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+            <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
               Latest Live Deliveries
             </h2>
-            <p className="text-sm text-gray-500 font-light tracking-wide mt-2 leading-relaxed">
+            <p className="text-sm font-light tracking-wide mt-2 leading-relaxed">
               Freshly scheduled transit operations posted by verified vendors.
               Book early to secure premium seating arrangements.
             </p>

@@ -16,10 +16,10 @@ export default function FeaturedTickets({ tickets }) {
               Premium Choices
             </span>
           </div>
-          <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl mb-4">
+          <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl mb-4">
             Featured Premium Routes
           </h2>
-          <p className="text-sm sm:text-base text-gray-500 font-light tracking-wide leading-relaxed">
+          <p className="text-sm sm:text-base font-light tracking-wide leading-relaxed">
             Handpicked premium departures matching maximum reliability metrics.
             Approved directly by RouteMate Admins.
           </p>
