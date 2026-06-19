@@ -10,7 +10,6 @@ import {
   FiLoader,
 } from "react-icons/fi";
 import { authClient } from "@/lib/auth-client";
-import { auth } from "@/lib/auth";
 
 export default function AdminDashboardIndex() {
   const { theme } = useTheme();
