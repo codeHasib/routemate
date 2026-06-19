@@ -103,7 +103,7 @@ export default function AddTicketPage() {
         const formData = new FormData();
         formData.append("image", imageFile);
 
-        const imgbbApiKey = "22ad84dc28286595d9a1f320b7a8b01e";
+        const imgbbApiKey = `${process.env.NEXT_PUBLIC_IMGBB_API}`;
 
         const imgbbResponse = await fetch(
           `https://api.imgbb.com/1/upload?key=${imgbbApiKey}`,

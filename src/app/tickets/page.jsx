@@ -69,7 +69,8 @@ export default function AllTicketsPage() {
           <option value="">All Types</option>
           <option value="bus">Bus</option>
           <option value="train">Train</option>
-          <option value="ship">Ship</option>
+          <option value="launch">Ship</option>
+          <option value="air">Air</option>
         </select>
         <select
           onChange={(e) => setSort(e.target.value)}
