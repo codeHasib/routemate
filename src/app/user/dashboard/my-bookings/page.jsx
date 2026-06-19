@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import Link from "next/link"; // ✨ Added for navigating to transaction history
+import Link from "next/link";
 import { formatDistanceToNow, isPast } from "date-fns";
 import {
   FiClock,
@@ -9,6 +9,7 @@ import {
   FiLoader,
   FiDownload,
   FiFileText,
+  FiCalendar,
 } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import { authClient } from "@/lib/auth-client";
@@ -41,7 +42,8 @@ export default function MyBookingsPage() {
 
   if (loading)
     return (
-      <div className="p-10 text-center text-slate-400 font-medium">
+      <div className="flex h-[50vh] items-center justify-center text-slate-400 font-medium gap-2">
+        <FiLoader className="animate-spin text-indigo-500" size={20} />
         Loading your travel history...
       </div>
     );
@@ -76,15 +78,41 @@ export default function MyBookingsPage() {
 
 function BookingCard({ booking }) {
   const departureDate = new Date(booking.departureTime);
-  const isExpired = isPast(departureDate);
+
+  // ✨ Live Client-Side Ticker State Engine
+  const [currentTime, setCurrentTime] = useState(new Date());
   const [checkoutLoading, setCheckoutLoading] = useState(false);
 
+  useEffect(() => {
+    // Instantiate interval running every 1000ms (1 second)
+    const ticker = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(ticker);
+  }, []);
+
+  // Compute live expiration state reactively based on interval ticks
+  const isExpired = currentTime >= departureDate;
+
+  // Deriving fallback variables for booking quantities safely
+  const bookingQuantity =
+    booking.bookingQuantity ||
+    booking.quantity ||
+    booking.selectedSeats?.length ||
+    1;
+
   const handleStripeCheckout = async () => {
+    if (isExpired) {
+      toast.error(
+        "Payment block enforced: This route's departure time has already passed.",
+      );
+      return;
+    }
     setCheckoutLoading(true);
     try {
       const { data } = await authClient.token();
-      const seatsCount = booking.selectedSeats?.length || 1;
-      const derivedUnitAmount = booking.totalAmount / seatsCount;
+      const derivedUnitAmount = booking.totalAmount / bookingQuantity;
 
       const response = await fetch("/api/checkout_sessions", {
         method: "POST",
@@ -96,7 +124,7 @@ function BookingCard({ booking }) {
           bookingId: booking._id,
           ticketTitle: booking.ticketTitle,
           amount: derivedUnitAmount,
-          quantity: seatsCount,
+          quantity: bookingQuantity,
         }),
       });
 
@@ -118,10 +146,7 @@ function BookingCard({ booking }) {
     }
   };
 
-  // ✨ PDF Generation Simulation
-  // ✨ FIXED: Real Client-Side PDF Generation via Browser Print Stream Engine
   const handleDownloadPDF = () => {
-    // 1. Open a clean, isolated browser tab layout context
     const printWindow = window.open("", "_blank", "width=700,height=750");
 
     if (!printWindow) {
@@ -131,7 +156,6 @@ function BookingCard({ booking }) {
       return;
     }
 
-    // 2. Inject raw semantic markup styled cleanly for PDF printing
     printWindow.document.write(`
     <html>
       <head>
@@ -235,11 +259,11 @@ function BookingCard({ booking }) {
             </div>
             <div class="info-row">
               <span class="label">Reserved Seats Volume</span>
-              <span class="value">${booking.selectedSeats?.length || 1} Seat(s)</span>
+              <span class="value">${bookingQuantity} Seat(s)</span>
             </div>
             <div class="info-row">
               <span class="label">Total Fare Settled</span>
-              <span class="value" style="color: #16a34a;">BDT${booking.totalAmount.toLocaleString()}</span>
+              <span class="value" style="color: #16a34a;">BDT ${booking.totalAmount.toLocaleString()}</span>
             </div>
             <div class="info-row">
               <span class="label">Document Issue Date</span>
@@ -254,7 +278,6 @@ function BookingCard({ booking }) {
         </div>
 
         <script>
-          // Automatically pull up print dialog option, saving seamlessly as a system PDF
           window.onload = function() {
             setTimeout(function() {
               window.print();
@@ -265,9 +288,26 @@ function BookingCard({ booking }) {
       </body>
     </html>
   `);
-
-    // 3. Complete stream context loading hook
     printWindow.document.close();
+  };
+
+  // Helper logic to format the dynamic countdown safely second-by-second
+  const getLiveCountdownString = () => {
+    const diff = departureDate.getTime() - currentTime.getTime();
+    if (diff <= 0) return "Passed";
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    const parts = [];
+    if (days > 0) parts.push(`${days}d`);
+    parts.push(`${hours.toString().padStart(2, "0")}h`);
+    parts.push(`${minutes.toString().padStart(2, "0")}m`);
+    parts.push(`${seconds.toString().padStart(2, "0")}s`);
+
+    return parts.join(" ");
   };
 
   return (
@@ -288,50 +328,83 @@ function BookingCard({ booking }) {
           </div>
         </div>
 
+        {/* 1. Ticket Title */}
         <h3 className="font-bold text-slate-900 text-lg tracking-tight">
           {booking.ticketTitle}
         </h3>
-        <div className="flex items-center text-xs text-slate-500 mt-1 mb-4">
+
+        {/* 2. From(Location) → To(Location) */}
+        <div className="flex items-center text-xs text-slate-500 mt-1 mb-2">
           <FiMapPin className="mr-1 text-indigo-500" /> {booking.from} →{" "}
           {booking.to}
         </div>
 
+        {/* 3. Explicit Static Departure Date & Time Display */}
+        <div className="flex items-center text-xs text-slate-400 font-medium mb-4">
+          <FiCalendar className="mr-1.5 text-slate-400" />
+          {departureDate.toLocaleDateString(undefined, {
+            weekday: "short",
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </div>
+
+        {/* 4. Booking Quantity & Total Price Metric Box */}
         <div className="grid grid-cols-2 bg-slate-50 p-4 rounded-2xl mb-4 gap-2">
           <div>
-            <p className="text-[10px] font-bold text-slate-400 uppercase">
-              Total Amount
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+              Total Price
             </p>
             <p className="font-black text-slate-900">
-              BDT{booking.totalAmount.toLocaleString()}
+              BDT {booking.totalAmount.toLocaleString()}
             </p>
           </div>
           <div className="text-right">
-            <p className="text-[10px] font-bold text-slate-400 uppercase">
-              Seats
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+              Booking Quantity
             </p>
-            <p className="font-bold text-slate-700">
-              {booking.selectedSeats?.length || 1}
-            </p>
+            <p className="font-bold text-slate-700">{bookingQuantity}</p>
           </div>
         </div>
 
+        {/* 5. Second-by-Second Dynamic Countdown Container (Removed on Rejected Status) */}
         {!isExpired && booking.status !== "rejected" && (
-          <div className="flex items-center text-[11px] font-medium text-slate-500 mb-4">
-            <FiClock className="mr-1.5 text-indigo-500" />
-            Departs in {formatDistanceToNow(departureDate)}
+          <div className="flex items-center text-[11px] font-bold text-indigo-600 bg-indigo-50/60 px-3 py-2 rounded-xl mb-4 w-fit border border-indigo-100/50">
+            <FiClock
+              className="mr-1.5 animate-pulse text-indigo-500"
+              size={13}
+            />
+            Departs in:{" "}
+            <span className="font-mono ml-1 tabular-nums">
+              {getLiveCountdownString()}
+            </span>
           </div>
         )}
+
+        {isExpired &&
+          booking.status !== "rejected" &&
+          booking.status !== "paid" && (
+            <div className="text-[11px] font-bold text-red-600 bg-red-50 px-3 py-2 rounded-xl mb-4 w-fit border border-red-100">
+              Departure Time Expired
+            </div>
+          )}
       </div>
 
-      {/* CASE A: TICKET IS ACCEPTED AND UNPAID */}
-      {booking.status === "accepted" && !isExpired && (
+      {/* ACTION MATRICES */}
+
+      {/* CASE A: TICKET IS ACCEPTED AND UNPAID (Locks instantly upon live expiration) */}
+      {booking.status === "accepted" && (
         <button
           onClick={handleStripeCheckout}
-          disabled={checkoutLoading}
+          disabled={checkoutLoading || isExpired}
           className={`w-full text-white py-3 rounded-2xl text-sm font-bold transition-all shadow-lg flex items-center justify-center gap-2 ${
-            checkoutLoading
-              ? "bg-slate-700 cursor-not-allowed shadow-none"
-              : "bg-slate-900 hover:bg-indigo-600 active:scale-[0.99] shadow-slate-200"
+            isExpired
+              ? "bg-slate-200 text-slate-400 cursor-not-allowed shadow-none border border-slate-300/30"
+              : checkoutLoading
+                ? "bg-slate-700 cursor-not-allowed shadow-none"
+                : "bg-slate-900 hover:bg-indigo-600 active:scale-[0.99] shadow-slate-200"
           }`}
         >
           {checkoutLoading ? (
@@ -339,16 +412,17 @@ function BookingCard({ booking }) {
               <FiLoader className="animate-spin text-indigo-400" size={16} />
               Spawning Gateway Session...
             </>
+          ) : isExpired ? (
+            "Payment Unavailable (Expired)"
           ) : (
             "Pay Now"
           )}
         </button>
       )}
 
-      {/* ✨ CASE B: TICKET IS ALREADY SUCCESSFULLY PAID */}
+      {/* CASE B: TICKET IS ALREADY SUCCESSFULLY PAID */}
       {booking.status === "paid" && (
         <div className="space-y-2 w-full mt-2">
-          {/* Action 1: Download Pass */}
           <button
             onClick={handleDownloadPDF}
             className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-2xl text-xs font-bold transition-all shadow-md shadow-emerald-100 flex items-center justify-center gap-2"
@@ -356,7 +430,6 @@ function BookingCard({ booking }) {
             <FiDownload size={14} /> Download Ticket PDF
           </button>
 
-          {/* Action 2: View transaction link routing context to user history dashboard */}
           <Link
             href="/user/dashboard/transactions"
             className="w-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 py-2.5 rounded-2xl text-xs font-bold transition-all flex items-center justify-center gap-2 block text-center"
