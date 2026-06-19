@@ -1,6 +1,7 @@
 // app/vendor/dashboard/profile/page.jsx
 "use client";
 
+import { useTheme } from "@/context/ThemeContext";
 import { authClient } from "@/lib/auth-client";
 import {
   FiUser,
@@ -14,6 +15,8 @@ import {
 export default function VendorProfilePage() {
   // Pulling the real logged-in vendor data directly from Better Auth session hooks
   const { data: session, isPending } = authClient.useSession();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   // Loading fallback while Better Auth reads client certificates
   if (isPending) {
@@ -52,7 +55,9 @@ export default function VendorProfilePage() {
     <div className="space-y-6">
       {/* PAGE HEADER */}
       <div>
-        <h1 className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">
+        <h1
+          className={`text-xl font-extrabold tracking-tight sm:text-2xl ${isDark ? "text-white" : "text-black"}`}
+        >
           Vendor Profile
         </h1>
         <p className="text-xs text-slate-400 font-light mt-0.5">
