@@ -245,7 +245,7 @@ function SuccessContent() {
                   Gross Capital Charged
                 </span>
                 <p className="text-xl font-black text-indigo-600 mt-0.5">
-                  ৳{bookingData?.totalAmount?.toLocaleString()}
+                  BDT{bookingData?.totalAmount?.toLocaleString()}
                 </p>
               </div>
             </div>

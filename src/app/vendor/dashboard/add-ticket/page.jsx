@@ -19,10 +19,13 @@ import {
   FiAlertCircle,
   FiCheckCircle,
 } from "react-icons/fi";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function AddTicketPage() {
   const router = useRouter();
   const { data: session, isPending: sessionLoading } = authClient.useSession();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   // Security Token Storage
   const [token, setToken] = useState(null);
@@ -194,7 +197,9 @@ export default function AddTicketPage() {
     <div className="space-y-6 max-w-3xl pb-12">
       {/* HEADER ROW CONTROL CORES */}
       <div>
-        <h1 className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl flex items-center space-x-2">
+        <h1
+          className={`text-xl font-extrabold tracking-tight sm:text-2xl flex items-center space-x-2 ${isDark ? "text-white" : "text-black"}`}
+        >
           <FiPlusCircle className="text-amber-500" />
           <span>Publish Travel Ticket Listing</span>
         </h1>
@@ -226,7 +231,7 @@ export default function AddTicketPage() {
         {/* SECTION I: PRIMARY MANIFEST DETAILS */}
         <div className="bg-white border border-slate-100 rounded-2xl p-5 md:p-6 shadow-xs space-y-4">
           <h3 className="text-xs font-black uppercase text-slate-400 tracking-widest border-b border-slate-50 pb-2">
-            I. Route Manifest Definition
+            ADD ROUTES
           </h3>
 
           {/* TICKET TITLE */}
@@ -282,7 +287,7 @@ export default function AddTicketPage() {
         {/* SECTION II: DEPLOYMENT METRICS MATRIX */}
         <div className="bg-white border border-slate-100 rounded-2xl p-5 md:p-6 shadow-xs space-y-4">
           <h3 className="text-xs font-black uppercase text-slate-400 tracking-widest border-b border-slate-50 pb-2">
-            II. Operational Logistics & Assets Configuration
+            Add category date and price
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -290,7 +295,7 @@ export default function AddTicketPage() {
             <div className="space-y-1.5">
               <label className="text-[10px] uppercase font-bold tracking-wider text-slate-500 flex items-center space-x-1">
                 <FiTruck className="text-slate-400" />
-                <span>Transit Vessel Fleet</span>
+                <span>Transport Type</span>
               </label>
               <select
                 value={transportType}
@@ -325,7 +330,7 @@ export default function AddTicketPage() {
             <div className="space-y-1.5">
               <label className="text-[10px] uppercase font-bold tracking-wider text-slate-500 flex items-center space-x-1">
                 <FiLayers className="text-slate-400" />
-                <span>Allotted Ticket Seat Load</span>
+                <span>Total Seats</span>
               </label>
               <input
                 type="number"
@@ -359,7 +364,7 @@ export default function AddTicketPage() {
         <div className="bg-white border border-slate-100 rounded-2xl p-5 md:p-6 shadow-xs space-y-5">
           <div>
             <h3 className="text-xs font-black uppercase text-slate-400 tracking-widest border-b border-slate-50 pb-2">
-              III. Onboard Amenities & Digital Identity Media
+              Extra facilities
             </h3>
           </div>
 
@@ -395,7 +400,7 @@ export default function AddTicketPage() {
           {/* IMAGE UPLOAD HOUSING PANEL */}
           <div className="space-y-2">
             <label className="text-[10px] uppercase font-bold tracking-wider text-slate-500 block">
-              Transit Vessel Image Attachment (ImgBB Remote Hosting System)
+              Add Transport image
             </label>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
               {/* FILE FIELD DROP DRAG EMULATOR */}
@@ -408,13 +413,10 @@ export default function AddTicketPage() {
                 />
                 <FiUploadCloud className="text-2xl text-slate-400 group-hover:text-black mx-auto mb-2 transition-colors" />
                 <span className="text-xs font-bold text-slate-800 block">
-                  {imageFile
-                    ? imageFile.name
-                    : "Select route illustration file media"}
+                  {imageFile ? imageFile.name : "Select Transport Image"}
                 </span>
                 <span className="text-[10px] text-slate-400 font-light mt-0.5 block">
-                  PNG, JPG, or WEBP. Uploaded autonomously to ImgBB arrays on
-                  execution.
+                  PNG, JPG, or WEBP type only
                 </span>
               </div>
 
@@ -429,7 +431,7 @@ export default function AddTicketPage() {
                     />
                   ) : (
                     <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 text-center px-4">
-                      Image Preview Dock
+                      Image Preview
                     </span>
                   )}
                 </div>
@@ -441,7 +443,7 @@ export default function AddTicketPage() {
         {/* SECTION IV: IMMUTABLE IDENTITY READONLY METADATA */}
         <div className="bg-slate-50 border border-slate-200/60 rounded-2xl p-5 md:p-6 shadow-inner space-y-4">
           <h3 className="text-xs font-black uppercase text-slate-400 tracking-widest border-b border-slate-200/50 pb-2">
-            IV. Immutable Identity Ownership Signatures
+            Vendor Infos
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -449,7 +451,7 @@ export default function AddTicketPage() {
             <div className="space-y-1.5">
               <label className="text-[10px] uppercase font-bold tracking-wider text-slate-400 flex items-center space-x-1">
                 <FiUser />
-                <span>Authorized Owner Merchant Stamp</span>
+                <span>Vendor Name</span>
               </label>
               <input
                 type="text"
@@ -463,7 +465,7 @@ export default function AddTicketPage() {
             <div className="space-y-1.5">
               <label className="text-[10px] uppercase font-bold tracking-wider text-slate-400 flex items-center space-x-1">
                 <FiMail />
-                <span>Security Callback Registry Email</span>
+                <span>Vendor Email</span>
               </label>
               <input
                 type="text"

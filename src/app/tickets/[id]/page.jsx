@@ -238,7 +238,7 @@ export default function TicketDetailsPage({ params }) {
             <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">
               Standard Fare Price
             </p>
-            <p className="text-5xl font-black text-gray-900">৳{ticket.price}</p>
+            <p className="text-5xl font-black text-gray-900">BDT{ticket.price}</p>
           </div>
 
           {/* HIGHLY STYLIZED LIVE INTERACTIVE DIGITAL COUNTDOWN BLOCK */}
@@ -376,7 +376,7 @@ export default function TicketDetailsPage({ params }) {
                   Gross Payable Balance:
                 </span>
                 <span className="text-2xl font-black text-indigo-600">
-                  ৳
+                  BDT
                   {isNaN(parseInt(quantity))
                     ? 0
                     : ticket.price * parseInt(quantity, 10)}

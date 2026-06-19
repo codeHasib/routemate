@@ -130,7 +130,7 @@ export default function TransactionsPage() {
 
                     {/* Amount Charged */}
                     <td className="p-4 text-right font-black text-emerald-600 text-sm">
-                      ৳{(tx.totalAmount || 0).toLocaleString()}
+                      BDT{(tx.totalAmount || 0).toLocaleString()}
                     </td>
                   </tr>
                 ))}

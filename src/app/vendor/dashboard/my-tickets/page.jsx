@@ -18,8 +18,11 @@ import {
   FiAlertTriangle,
 } from "react-icons/fi";
 import { toast } from "react-toastify";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function MyTicketsPage() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const { data: session, isPending: sessionLoading } = authClient.useSession();
   const [token, setToken] = useState(null);
   const [tickets, setTickets] = useState([]);
@@ -174,8 +177,10 @@ export default function MyTicketsPage() {
     <div className="space-y-6 pb-12">
       {/* SECTION TITLE HEADER */}
       <div>
-        <h1 className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl flex items-center space-x-2">
-          <FiLayers className="text-slate-800" />
+        <h1
+          className={`text-xl font-extrabold tracking-tight sm:text-2xl flex items-center space-x-2 ${isDark ? "text-white" : "text-black"}`}
+        >
+          <FiLayers className={isDark ? "text-white" : "text-black"} />
           <span>My Added Tickets</span>
         </h1>
         <p className="text-xs text-slate-400 font-light mt-0.5">

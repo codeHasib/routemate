@@ -84,7 +84,7 @@ export default function RevenuePage() {
             Total Revenue
           </div>
           <div className="text-2xl font-black text-emerald-600 mt-1">
-            ৳{(stats.totalRevenue || 0).toLocaleString()}
+            BDT{(stats.totalRevenue || 0).toLocaleString()}
           </div>
         </div>
       </div>
@@ -111,7 +111,7 @@ export default function RevenuePage() {
         {/* Right Side: Revenue Chart */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
           <h3 className="text-sm font-bold text-slate-700 mb-4">
-            Financial Earnings (৳)
+            Financial Earnings (BDT)
           </h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -120,7 +120,7 @@ export default function RevenuePage() {
                 <YAxis />
                 <Tooltip
                   formatter={(value) => [
-                    `৳${value.toLocaleString()}`,
+                    `BDT${value.toLocaleString()}`,
                     "Amount",
                   ]}
                 />

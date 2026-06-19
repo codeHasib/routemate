@@ -15,6 +15,7 @@ import {
   FiInfo,
 } from "react-icons/fi";
 import { toast } from "react-toastify";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function RequestedBookingsPage() {
   const { isPending: sessionLoading } = authClient.useSession();
@@ -23,6 +24,9 @@ export default function RequestedBookingsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [actionLoadingId, setActionLoadingId] = useState(null);
+
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   // 1. Sync User Cryptographic Authorization Token
   useEffect(() => {
@@ -120,8 +124,10 @@ export default function RequestedBookingsPage() {
     <div className="space-y-6 pb-12">
       {/* PAGE SECTION HEADINGS */}
       <div>
-        <h1 className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl flex items-center space-x-2">
-          <FiInbox className="text-slate-800" />
+        <h1
+          className={`text-xl font-extrabold tracking-tight ${isDark ? "text-white" : "text-black"} sm:text-2xl flex items-center space-x-2 `}
+        >
+          <FiInbox className={isDark ? "text-white" : "text-black"} />
           <span>Requested Bookings</span>
         </h1>
         <p className="text-xs text-slate-400 font-light mt-0.5">

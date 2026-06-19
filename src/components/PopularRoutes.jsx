@@ -143,7 +143,7 @@ export default function PopularRoutes() {
                         isDark ? "text-white" : "text-black"
                       }`}
                     >
-                      ৳{route.basePrice}
+                      BDT{route.basePrice}
                     </span>
                   </p>
                 </div>

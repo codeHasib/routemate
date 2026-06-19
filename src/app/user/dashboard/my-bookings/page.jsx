@@ -239,7 +239,7 @@ function BookingCard({ booking }) {
             </div>
             <div class="info-row">
               <span class="label">Total Fare Settled</span>
-              <span class="value" style="color: #16a34a;">৳${booking.totalAmount.toLocaleString()}</span>
+              <span class="value" style="color: #16a34a;">BDT${booking.totalAmount.toLocaleString()}</span>
             </div>
             <div class="info-row">
               <span class="label">Document Issue Date</span>
@@ -302,7 +302,7 @@ function BookingCard({ booking }) {
               Total Amount
             </p>
             <p className="font-black text-slate-900">
-              ৳{booking.totalAmount.toLocaleString()}
+              BDT{booking.totalAmount.toLocaleString()}
             </p>
           </div>
           <div className="text-right">

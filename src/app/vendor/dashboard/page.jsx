@@ -87,7 +87,7 @@ export default function VendorDashboardIndex() {
     },
     {
       label: "Total Gross Revenue",
-      value: `৳ ${metrics.totalRevenue.toLocaleString()}`,
+      value: `BDT ${metrics.totalRevenue.toLocaleString()}`,
       icon: <FiTrendingUp className="text-base text-indigo-500" />,
     },
   ];
@@ -294,7 +294,7 @@ export default function VendorDashboardIndex() {
 
                     {/* Yield / Amount */}
                     <td className="py-3.5 pl-2 font-mono font-bold text-right text-[13px] tracking-tight text-emerald-500">
-                      ৳ {ticket.totalAmount?.toLocaleString()}
+                      BDT {ticket.totalAmount?.toLocaleString()}
                     </td>
                   </tr>
                 ))}

@@ -209,7 +209,7 @@ export default function ManageTicketsPage() {
                       {ticket.date}
                     </td>
                     <td className="py-4 px-4 font-bold text-slate-900">
-                      ৳ {ticket.price}
+                      BDT {ticket.price}
                     </td>
                     <td className="py-4 px-4">
                       {ticket.status === "active" && (

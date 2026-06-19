@@ -105,7 +105,7 @@ export default function UserDashboardIndex() {
     },
     {
       label: "Total Invested",
-      value: `৳ ${totalSpent.toLocaleString()}`,
+      value: `BDT ${totalSpent.toLocaleString()}`,
       description: "Aggregated gross checkout expenditures.",
       icon: <FiCreditCard className="text-base text-indigo-500" />,
     },
@@ -319,7 +319,7 @@ export default function UserDashboardIndex() {
 
                     {/* Total Amount */}
                     <td className="py-3.5 pl-2 font-mono font-bold text-right text-[13px] text-slate-900 dark:text-zinc-100">
-                      ৳ {booking.totalAmount?.toLocaleString()}
+                      BDT {booking.totalAmount?.toLocaleString()}
                     </td>
                   </tr>
                 ))}

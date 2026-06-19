@@ -284,7 +284,7 @@ export default function AdvertiseTicketsPage() {
 
                     {/* PRICE */}
                     <td className="py-4 px-4 font-bold text-slate-900">
-                      ৳ {ticket.price}
+                      BDT {ticket.price}
                     </td>
 
                     {/* CURRENT RUNNING STATUS ELEMENT SUMMARY */}
