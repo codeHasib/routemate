@@ -12,6 +12,7 @@ import {
 } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "react-toastify";
 
 export default function MyBookingsPage() {
   const [bookings, setBookings] = useState([]);
@@ -111,7 +112,7 @@ function BookingCard({ booking }) {
       }
     } catch (err) {
       console.error("Stripe Checkout Redirect Error:", err);
-      alert(`Payment Processing Failed: ${err.message}`);
+      toast.error(`Payment Processing Failed: ${err.message}`);
     } finally {
       setCheckoutLoading(false);
     }
@@ -124,7 +125,7 @@ function BookingCard({ booking }) {
     const printWindow = window.open("", "_blank", "width=700,height=750");
 
     if (!printWindow) {
-      alert(
+      toast.error(
         "Popup blocked! Please allow popups to view and download your ticket pass.",
       );
       return;

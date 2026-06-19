@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { authClient } from "@/lib/auth-client";
 import {
   FiLayers,
@@ -14,7 +15,9 @@ import {
   FiLoader,
   FiAlertCircle,
   FiX,
+  FiAlertTriangle,
 } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 export default function MyTicketsPage() {
   const { data: session, isPending: sessionLoading } = authClient.useSession();
@@ -29,6 +32,10 @@ export default function MyTicketsPage() {
   const [updatePrice, setUpdatePrice] = useState("");
   const [updateQuantity, setUpdateQuantity] = useState("");
   const [updateLoading, setUpdateLoading] = useState(false);
+
+  // DELETE MODAL STATE PIPELINES
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [ticketToDeleteId, setTicketToDeleteId] = useState(null);
 
   // 1. Sync User Security Tokens
   useEffect(() => {
@@ -48,13 +55,16 @@ export default function MyTicketsPage() {
     if (!token) return;
     setLoading(true);
     try {
-      const res = await fetch("https://routemate-backend-nine.vercel.app/api/manage/tickets", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+      const res = await fetch(
+        "https://routemate-backend-nine.vercel.app/api/manage/tickets",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         },
-      });
+      );
       const data = await res.json();
       if (data.success) {
         setTickets(data.tickets);
@@ -72,14 +82,20 @@ export default function MyTicketsPage() {
     fetchMyTickets();
   }, [token]);
 
+  // INTERCEPT CLICK OPERATIONS TO TRIGGER VISUAL MODAL OVERLAY
+  const triggerDeleteConfirmation = (id) => {
+    setTicketToDeleteId(id);
+    setIsDeleteModalOpen(true);
+  };
+
   // 3. Execution Pipeline: Delete Manifest Entry
-  const handleDelete = async (id) => {
-    if (
-      !confirm(
-        "Are you completely certain you want to permanently delete this ticket listing?",
-      )
-    )
-      return;
+  const handleDelete = async () => {
+    if (!token || !ticketToDeleteId) return;
+
+    const id = ticketToDeleteId;
+    setIsDeleteModalOpen(false);
+    setTicketToDeleteId(null);
+
     try {
       const res = await fetch(
         `https://routemate-backend-nine.vercel.app/api/manage/tickets/${id}`,
@@ -94,10 +110,10 @@ export default function MyTicketsPage() {
       if (data.success) {
         setTickets((prev) => prev.filter((ticket) => ticket._id !== id));
       } else {
-        alert(data.message || "Deletion access rejected.");
+        toast.error(data.message || "Deletion access rejected.");
       }
     } catch (err) {
-      alert("Error occurred executing delete signal.");
+      toast.error("Error occurred executing delete signal.");
     }
   };
 
@@ -134,10 +150,10 @@ export default function MyTicketsPage() {
         setEditingTicket(null);
         fetchMyTickets(); // Refresh view state entries safely
       } else {
-        alert(data.message || "Modification pipeline rejected updates.");
+        toast.error(data.message || "Modification pipeline rejected updates.");
       }
     } catch (err) {
-      alert("Error handling inline updates.");
+      toast.error("Error handling inline updates.");
     } finally {
       setUpdateLoading(false);
     }
@@ -285,7 +301,7 @@ export default function MyTicketsPage() {
                       type="button"
                       disabled={isRejected}
                       onClick={() => openUpdateModal(ticket)}
-                      className="flex items-center justify-center space-x-1.5 px-3 py-2 text-xs font-bold border border-slate-200 rounded-xl text-slate-700 hover:bg-slate-50 hover:border-slate-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-slate-200 transition-all"
+                      className="flex items-center justify-center space-x-1.5 px-3 py-2 text-xs font-bold border border-slate-200 rounded-xl text-slate-700 hover:bg-slate-50 hover:border-slate-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-slate-200 transition-all cursor-pointer"
                     >
                       <FiEdit3 className="text-xs text-slate-400" />
                       <span>Update</span>
@@ -293,8 +309,8 @@ export default function MyTicketsPage() {
                     <button
                       type="button"
                       disabled={isRejected}
-                      onClick={() => handleDelete(ticket._id)}
-                      className="flex items-center justify-center space-x-1.5 px-3 py-2 text-xs font-bold border border-transparent rounded-xl bg-red-50 text-red-600 hover:bg-red-100 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-red-50 transition-all"
+                      onClick={() => triggerDeleteConfirmation(ticket._id)}
+                      className="flex items-center justify-center space-x-1.5 px-3 py-2 text-xs font-bold border border-transparent rounded-xl bg-red-50 text-red-600 hover:bg-red-100 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-red-50 transition-all cursor-pointer"
                     >
                       <FiTrash2 className="text-xs" />
                       <span>Delete</span>
@@ -323,7 +339,7 @@ export default function MyTicketsPage() {
               </div>
               <button
                 onClick={() => setEditingTicket(null)}
-                className="text-slate-400 hover:text-white transition-colors"
+                className="text-slate-400 hover:text-white transition-colors cursor-pointer"
               >
                 <FiX className="text-base" />
               </button>
@@ -353,7 +369,7 @@ export default function MyTicketsPage() {
                     type="number"
                     required
                     min="1"
-                    value={updatePrice}
+                    value={update_price}
                     onChange={(e) => setUpdatePrice(e.target.value)}
                     className="w-full text-sm px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-hidden focus:border-black focus:bg-white transition-all text-slate-900 font-mono"
                   />
@@ -379,14 +395,14 @@ export default function MyTicketsPage() {
                 <button
                   type="button"
                   onClick={() => setEditingTicket(null)}
-                  className="px-4 py-2.5 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all"
+                  className="px-4 py-2.5 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={updateLoading}
-                  className="px-5 py-2.5 bg-slate-950 text-white hover:bg-slate-900 rounded-xl text-xs font-bold transition-all disabled:opacity-50 flex items-center space-x-1"
+                  className="px-5 py-2.5 bg-slate-950 text-white hover:bg-slate-900 rounded-xl text-xs font-bold transition-all disabled:opacity-50 flex items-center space-x-1 cursor-pointer"
                 >
                   {updateLoading ? (
                     <>
@@ -402,6 +418,88 @@ export default function MyTicketsPage() {
           </div>
         </div>
       )}
+
+      {/* GLOBAL PERSISTENT DESTRUCTIVE CONFIRMATION POPUP */}
+      <DeleteConfirmModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => {
+          setIsDeleteModalOpen(false);
+          setTicketToDeleteId(null);
+        }}
+        onConfirm={handleDelete}
+        title="Permanently Delete Ticket Listing?"
+        message="Are you completely certain you want to permanently delete this ticket listing? This operation is irreversible and will purge item records immediately."
+      />
     </div>
+  );
+}
+
+// INLINE ANCHORED CONFIRMATION VIEW FOR ENHANCED DASHBOARD RESPONSIVENESS
+function DeleteConfirmModal({ isOpen, onClose, onConfirm, title, message }) {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop Blur Mesh */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-slate-900/30 backdrop-blur-xs transition-opacity"
+          />
+
+          {/* Modal Container Chassis */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96, y: 8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 8 }}
+            transition={{ type: "spring", duration: 0.35 }}
+            className="relative w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 border border-slate-100 shadow-2xl transition-all"
+          >
+            {/* Top Close Axis Toggle */}
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 p-1.5 rounded-lg border border-slate-100 text-slate-400 hover:bg-slate-50 hover:text-slate-600 transition-colors cursor-pointer"
+            >
+              <FiX size={13} />
+            </button>
+
+            {/* Graphic Hazard Header Node */}
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-red-50 text-red-600 rounded-xl border border-red-100 shrink-0">
+                <FiAlertTriangle size={18} className="animate-pulse" />
+              </div>
+              <div className="space-y-1">
+                <h3 className="text-sm font-extrabold tracking-tight text-slate-900">
+                  {title}
+                </h3>
+                <p className="text-[11px] font-light leading-relaxed text-slate-500">
+                  {message}
+                </p>
+              </div>
+            </div>
+
+            {/* Direct Interaction Actions Control Deck */}
+            <div className="mt-5 flex items-center justify-end gap-2.5">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-3.5 py-2 rounded-xl text-[11px] font-bold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 active:scale-97 transition-all cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={onConfirm}
+                className="px-3.5 py-2 rounded-xl text-[11px] font-bold bg-red-600 hover:bg-red-500 active:scale-97 text-white shadow-md shadow-red-600/10 transition-all cursor-pointer"
+              >
+                Delete Permanently
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 }

@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { authClient } from "@/lib/auth-client";
 import {
   FiUsers,
@@ -11,6 +12,7 @@ import {
   FiLoader,
   FiSearch,
   FiRefreshCw,
+  FiX,
 } from "react-icons/fi";
 
 export default function ManageUsersPage() {
@@ -20,6 +22,10 @@ export default function ManageUsersPage() {
   const [successMessage, setSuccessMessage] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [actioningId, setActioningId] = useState(null);
+
+  // MODAL UTILITY STATE
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
 
   // 1. YOUR EXACT REQUIRED TOKEN STORAGE ARCHITECTURE
   const [token, setToken] = useState(null);
@@ -116,15 +122,19 @@ export default function ManageUsersPage() {
     }
   };
 
-  // ACTION 2: Flag vendor as fraud and quarantine assets using your /mistrust-operator route
-  const handleMarkAsFraud = async (targetUserId) => {
-    if (!token) return;
-    const confirmAction = confirm(
-      "Are you completely sure you want to mark this vendor as fraudulent? This will immediately strip their credentials and hide all of their travel tickets.",
-    );
-    if (!confirmAction) return;
+  // INTERCEPT CLICKS AND TRIGGER DIALOG CONTEXT
+  const triggerFraudConfirmation = (targetUserId) => {
+    setSelectedUserId(targetUserId);
+    setIsModalOpen(true);
+  };
 
-    setActioningId(targetUserId);
+  // ACTION 2: Flag vendor as fraud and quarantine assets using your /mistrust-operator route
+  const handleMarkAsFraud = async () => {
+    if (!token || !selectedUserId) return;
+
+    // Close modal pipeline immediately upon submission agreement
+    setIsModalOpen(false);
+    setActioningId(selectedUserId);
     setError("");
     setSuccessMessage("");
 
@@ -137,7 +147,7 @@ export default function ManageUsersPage() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ targetUserId }),
+          body: JSON.stringify({ targetUserId: selectedUserId }),
         },
       );
 
@@ -156,7 +166,7 @@ export default function ManageUsersPage() {
       // Update local state to reflect role fallback demotion to standard "user" status
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
-          user._id === targetUserId ? { ...user, role: "user" } : user,
+          user._id === selectedUserId ? { ...user, role: "user" } : user,
         ),
       );
     } catch (err) {
@@ -165,6 +175,7 @@ export default function ManageUsersPage() {
       );
     } finally {
       setActioningId(null);
+      setSelectedUserId(null);
     }
   };
 
@@ -193,7 +204,7 @@ export default function ManageUsersPage() {
         <button
           onClick={fetchUsers}
           disabled={loading || !token}
-          className="inline-flex items-center space-x-2 px-3.5 py-2 bg-white border border-slate-200 text-slate-700 text-xs font-semibold rounded-xl hover:bg-slate-50 transition-all shadow-xs disabled:opacity-50"
+          className="inline-flex items-center space-x-2 px-3.5 py-2 bg-white border border-slate-200 text-slate-700 text-xs font-semibold rounded-xl hover:bg-slate-50 transition-all shadow-xs disabled:opacity-50 cursor-pointer"
         >
           <FiRefreshCw className={`text-xs ${loading ? "animate-spin" : ""}`} />
           <span>Refresh List</span>
@@ -301,7 +312,7 @@ export default function ManageUsersPage() {
                           disabled={
                             actioningId !== null || user.role === "admin"
                           }
-                          className={`inline-flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-[11px] font-bold transition-all shadow-xs ${
+                          className={`inline-flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-[11px] font-bold transition-all shadow-xs cursor-pointer ${
                             user.role === "admin"
                               ? "bg-slate-50 text-slate-300 border border-slate-100 pointer-events-none shadow-none"
                               : "bg-black text-white hover:bg-slate-900 active:scale-95 disabled:opacity-40"
@@ -317,7 +328,7 @@ export default function ManageUsersPage() {
                           disabled={
                             actioningId !== null || user.role === "vendor"
                           }
-                          className={`inline-flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-[11px] font-bold border transition-all shadow-xs ${
+                          className={`inline-flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-[11px] font-bold border transition-all shadow-xs cursor-pointer ${
                             user.role === "vendor"
                               ? "bg-slate-50 text-slate-300 border-slate-100 pointer-events-none shadow-none"
                               : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50 active:scale-95 disabled:opacity-40"
@@ -330,9 +341,9 @@ export default function ManageUsersPage() {
                         {/* CRITICAL CONDITIONAL RENDER: MARK AS FRAUD (VENDORS ONLY) */}
                         {user.role === "vendor" && (
                           <button
-                            onClick={() => handleMarkAsFraud(user._id)}
+                            onClick={() => triggerFraudConfirmation(user._id)}
                             disabled={actioningId !== null}
-                            className="inline-flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-red-50 border border-red-100 text-red-600 hover:bg-red-100 transition-all shadow-xs active:scale-95 disabled:opacity-40"
+                            className="inline-flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-red-50 border border-red-100 text-red-600 hover:bg-red-100 transition-all shadow-xs active:scale-95 disabled:opacity-40 cursor-pointer"
                             title="Flag vendor account for fraud and quarantine resources"
                           >
                             <FiAlertTriangle className="text-xs animate-pulse" />
@@ -348,6 +359,88 @@ export default function ManageUsersPage() {
           </div>
         )}
       </div>
+
+      {/* DESTRUCTIVE MODAL UTILITY INJECTOR */}
+      <ConfirmModal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedUserId(null);
+        }}
+        onConfirm={handleMarkAsFraud}
+        title="Revoke and Quarantine Operator Credentials?"
+        message="Are you completely sure you want to mark this vendor as fraudulent? This will immediately strip their credentials and hide all of their travel tickets from global directories."
+      />
     </div>
+  );
+}
+
+// LOCAL CONFIRMATION LAYOUT COMPONENT FOR CLEAN SINGLE FILE DEPLOYMENT
+function ConfirmModal({ isOpen, onClose, onConfirm, title, message }) {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop Blur Overlay */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-slate-900/30 backdrop-blur-xs transition-opacity"
+          />
+
+          {/* Modal Container Chassis */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96, y: 8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 8 }}
+            transition={{ type: "spring", duration: 0.35 }}
+            className="relative w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 border border-slate-100 shadow-2xl transition-all"
+          >
+            {/* Close Cross Toggle */}
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 p-1.5 rounded-lg border border-slate-100 text-slate-400 hover:bg-slate-50 hover:text-slate-600 transition-colors cursor-pointer"
+            >
+              <FiX size={13} />
+            </button>
+
+            {/* Warning Body Block */}
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-red-50 text-red-600 rounded-xl border border-red-100 shrink-0">
+                <FiAlertTriangle size={18} className="animate-pulse" />
+              </div>
+              <div className="space-y-1">
+                <h3 className="text-sm font-extrabold tracking-tight text-slate-900">
+                  {title}
+                </h3>
+                <p className="text-[11px] font-light leading-relaxed text-slate-500">
+                  {message}
+                </p>
+              </div>
+            </div>
+
+            {/* Operational Direct Actions Panel */}
+            <div className="mt-5 flex items-center justify-end gap-2.5">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-3.5 py-2 rounded-xl text-[11px] font-bold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 active:scale-97 transition-all cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={onConfirm}
+                className="px-3.5 py-2 rounded-xl text-[11px] font-bold bg-red-600 hover:bg-red-500 active:scale-97 text-white shadow-md shadow-red-600/10 transition-all cursor-pointer"
+              >
+                Yes, Flag Vendor
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 }

@@ -14,6 +14,7 @@ import {
   FiAlertCircle,
   FiInfo,
 } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 export default function RequestedBookingsPage() {
   const { isPending: sessionLoading } = authClient.useSession();
@@ -41,13 +42,16 @@ export default function RequestedBookingsPage() {
     if (!token) return;
     setLoading(true);
     try {
-      const res = await fetch("https://routemate-backend-nine.vercel.app/api/bookings", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+      const res = await fetch(
+        "https://routemate-backend-nine.vercel.app/api/bookings",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         },
-      });
+      );
       const result = await res.json();
       if (result.success) {
         setBookings(result.data);
@@ -90,10 +94,12 @@ export default function RequestedBookingsPage() {
           ),
         );
       } else {
-        alert(result.message || "Status adjustment update rejected by server.");
+        toast.error(
+          result.message || "Status adjustment update rejected by server.",
+        );
       }
     } catch (err) {
-      alert("Error processing booking operational state status change.");
+      toast.error("Error processing booking operational state status change.");
     } finally {
       setActionLoadingId(null);
     }
