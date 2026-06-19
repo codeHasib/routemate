@@ -6,7 +6,7 @@ export default function LatestTickets({ tickets }) {
   if (!tickets || tickets.length === 0) return null;
 
   return (
-    <section className="py-20 bg-white border-t border-gray-100 font-sans">
+    <section className="py-20 border-t border-gray-100 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* SECTION HEADER AREA */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
