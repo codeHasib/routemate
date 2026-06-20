@@ -174,21 +174,21 @@ export default function ContactPage() {
                     isDark ? "text-zinc-500" : "text-slate-400"
                   }`}
                 >
-                  HQ Coordinate Matrix
+                  Head Office
                 </h4>
                 <p
                   className={`text-sm font-medium mt-0.5 transition-colors duration-300 ${
                     isDark ? "text-zinc-200" : "text-slate-800"
                   }`}
                 >
-                  742 Transit Way, Suite 400
+                  Mojaffor Nagar H/S, 2no Lane
                 </p>
                 <p
                   className={`text-xs font-light transition-colors duration-300 ${
                     isDark ? "text-zinc-500" : "text-slate-500"
                   }`}
                 >
-                  San Francisco, CA 94107
+                  Khulshi, Chittagong
                 </p>
               </div>
             </div>
@@ -217,10 +217,10 @@ export default function ContactPage() {
                   isDark ? "text-zinc-300" : "text-slate-700"
                 }`}
               >
-                System Pulse Response
+                Admin Response Time
               </h5>
               <p className="text-xs font-mono text-zinc-500">
-                Average terminal reply time: &lt; 15 mins
+                Average admin reply time: &lt; 15 mins
               </p>
             </div>
           </div>
@@ -244,7 +244,7 @@ export default function ContactPage() {
                     isDark ? "text-zinc-400" : "text-slate-500"
                   }`}
                 >
-                  Identification Name
+                  Your Name
                 </label>
                 <input
                   type="text"
@@ -270,7 +270,7 @@ export default function ContactPage() {
                     isDark ? "text-zinc-400" : "text-slate-500"
                   }`}
                 >
-                  Email Protocol
+                  Your Email
                 </label>
                 <input
                   type="email"
@@ -297,7 +297,7 @@ export default function ContactPage() {
                   isDark ? "text-zinc-400" : "text-slate-500"
                 }`}
               >
-                Transmission Subject
+                Subject of concern
               </label>
               <input
                 type="text"
@@ -323,7 +323,7 @@ export default function ContactPage() {
                   isDark ? "text-zinc-400" : "text-slate-500"
                 }`}
               >
-                Payload Message
+                Your Message
               </label>
               <textarea
                 rows={5}
@@ -365,7 +365,7 @@ export default function ContactPage() {
               ) : (
                 <>
                   <FiSend className="text-base stroke-[2.5]" />
-                  <span>Transmit Payload</span>
+                  <span>Send Message</span>
                 </>
               )}
             </button>

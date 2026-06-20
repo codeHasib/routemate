@@ -55,7 +55,7 @@ export default function UserProfilePage() {
         </div>
 
         {/* Info Grid */}
-        <div className="grid gap-6">
+        <div className="flex flex-col justify-center items-center gap-5">
           <ProfileField
             icon={FiMail}
             label="Email Address"
@@ -80,7 +80,7 @@ export default function UserProfilePage() {
 // Reusable Field Component
 function ProfileField({ icon: Icon, label, value }) {
   return (
-    <div className="flex items-center p-4 bg-slate-50 rounded-2xl border border-slate-100">
+    <div className="flex items-center p-4 bg-slate-50 rounded-2xl border border-slate-100 flex-wrap w-full overflow-auto">
       <div className="w-10 h-10 flex items-center justify-center bg-white rounded-xl shadow-sm text-indigo-500 mr-4">
         <Icon />
       </div>
