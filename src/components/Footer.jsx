@@ -22,7 +22,7 @@ export default function Footer() {
       className={`font-sans pt-16 pb-8 border-t transition-colors duration-300 ${
         isDark
           ? "bg-zinc-950 text-zinc-400 border-zinc-900"
-          : "bg-gray-400 text-black border-gray-100"
+          : "bg-gray-100 text-black border-gray-100"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

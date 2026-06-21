@@ -116,10 +116,8 @@ export default function SignUpPage() {
         setSuccessMessage(
           "Account created successfully! Redirecting to login space...",
         );
-
-        // Execute clean declarative route push to your exact auth signin space after 2 seconds
         setTimeout(() => {
-          router.push("/auth/signin");
+          router.push("/");
         }, 2000);
       }
     } catch (err) {

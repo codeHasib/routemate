@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { authClient } from "@/lib/auth-client"; // Adjust this path to your Better-Auth client instance
 import { useTheme } from "@/context/ThemeContext"; // Adjust this path to your custom theme context
-import { RiRouteLine } from "react-icons/ri";
+import { FaBus } from "react-icons/fa";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
 import { FiUser, FiLogOut, FiLayout, FiChevronDown } from "react-icons/fi";
 import Image from "next/image";
@@ -55,7 +55,7 @@ export default function Navbar() {
                 isDark ? "bg-white text-zinc-950" : "bg-black text-white"
               }`}
             >
-              <RiRouteLine className="text-xl" />
+              <FaBus className="text-xl" />
             </div>
             <span
               className={`text-xl font-bold tracking-tight font-sans ${isDark ? "text-white" : "text-black"}`}

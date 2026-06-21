@@ -12,17 +12,17 @@ const POPULAR_ROUTES = [
     from: "Dhaka",
     to: "Chittagong",
     duration: "5h 30m",
-    basePrice: "12",
+    basePrice: "1200",
   },
-  { id: 2, from: "Sylhet", to: "Dhaka", duration: "4h 45m", basePrice: "15" },
+  { id: 2, from: "Sylhet", to: "Dhaka", duration: "4h 45m", basePrice: "1500" },
   {
     id: 3,
     from: "Cox's Bazar",
     to: "Dhaka",
     duration: "8h 15m",
-    basePrice: "22",
+    basePrice: "1200",
   },
-  { id: 4, from: "Dhaka", to: "Khulna", duration: "6h 00m", basePrice: "18" },
+  { id: 4, from: "Dhaka", to: "Khulna", duration: "6h 00m", basePrice: "1800" },
 ];
 
 export default function PopularRoutes() {
