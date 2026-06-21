@@ -114,7 +114,7 @@ export default function SignUpPage() {
         setLoading(false);
       } else if (data) {
         setSuccessMessage(
-          "Account created successfully! Redirecting to login space...",
+          "Account created successfully! Redirecting to home page...",
         );
         setTimeout(() => {
           router.push("/");
