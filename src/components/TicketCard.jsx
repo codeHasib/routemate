@@ -159,7 +159,7 @@ export default function TicketCard({ ticket, index }) {
                 isDark ? "text-white" : "text-black"
               }`}
             >
-              BDT{ticket.price || "0.00"}
+              BDT {ticket.price || "0.00"}
             </p>
           </div>
 

@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { RiRouteLine } from "react-icons/ri";
+import { FaBus } from "react-icons/fa";
 import { FiMail, FiPhone, FiArrowUpRight } from "react-icons/fi";
 import { useTheme } from "@/context/ThemeContext"; // Adjust this path to your custom theme context
 import {
@@ -40,7 +40,7 @@ export default function Footer() {
                   isDark ? "bg-white text-black" : "bg-black text-white"
                 }`}
               >
-                <RiRouteLine className="text-lg" />
+                <FaBus className="text-lg" />
               </div>
               <span
                 className={`text-lg font-bold tracking-tight transition-colors duration-300 ${

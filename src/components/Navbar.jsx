@@ -144,8 +144,8 @@ export default function Navbar() {
                   <div
                     className={`w-8 h-8 rounded-full border flex items-center justify-center font-semibold text-sm overflow-hidden uppercase ${
                       isDark
-                        ? "bg-white border-zinc-800 text-zinc-950"
-                        : "bg-gray-900 border-gray-200 text-white"
+                        ? "bg-white border-gray-500 text-zinc-950"
+                        : "bg-gray-900 border-gray-500 text-white"
                     }`}
                   >
                     {user.image ? (
