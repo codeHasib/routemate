@@ -14,7 +14,7 @@ RouteMate is a high-fidelity, utility-first travel ticket procurement and vendor
 
 In modern transit ecosystems, legacy ticketing software suffers from high latency and rigid interfaces. **RouteMate** reclaims efficiency by providing vendors with an agile, high-performance portal to manage target route pathing, inventory availability, and localized structural data. It serves as an end-to-end framework bridges secure administrative auditing with dynamic consumer-facing route options.
 
-- **Live Application URL:** [https://routemate-backend-nine.vercel.app](https://routemate-backend-nine.vercel.app) _(Target Backend Service Matrix)_
+- **Live Application URL:** [Live Link](https://routemate-six.vercel.app/) _(Live Preview)_
 
 ---
 
